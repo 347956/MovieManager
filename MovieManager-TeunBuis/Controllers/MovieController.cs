@@ -12,16 +12,17 @@ namespace MovieManager_TeunBuis.Controllers
     {
         public IActionResult Index()
         {
+            List<MovieModel> movieModels = new List<MovieModel>();
+            foreach (Movie movie in new MovieCollection().GetAllMovies())
+            {
+                movieModels.Add(new MovieModel { Name = movie.Name, Genre = movie.Genre, GenreTWo = movie.GenreTwo, Date = movie.Date, Watched = movie.Watched, ID = movie.ID });
+            }
+            ViewBag.movies = movieModels;
             return View();
         }
         public IActionResult MovieList()
         {
-            List<MovieModel> movieModels = new List<MovieModel>();
-            foreach (Movie movie in new MovieCollection().GetAllMovies())
-            {
-                movieModels.Add(new MovieModel { Name = movie.Name, Genre = movie.Genre, Date = movie.Date, Watched = movie.Watched, ID = movie.ID });
-            }
-            return View(movieModels);
+            return View();
         }
     }
 }

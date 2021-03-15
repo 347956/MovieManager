@@ -63,7 +63,7 @@ namespace DAL
             {
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {
-                    string query = "SELECT FROM MovieTest";
+                    string query = "SELECT * FROM MovieTest";
                     SqlCommand getAllMovies = new SqlCommand(query, conn);
                     conn.Open();
                     var reader = getAllMovies.ExecuteReader();
@@ -94,7 +94,7 @@ namespace DAL
             {
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {
-                    string query = "SELECT FROM MovieTest WHERE Id = @Id";
+                    string query = "SELECT * FROM MovieTest WHERE Id = @Id";
                     SqlCommand getMovieCommand = new SqlCommand(query, conn);
                     getMovieCommand.Parameters.AddWithValue("@Id", ID);
                     SqlDataReader reader = getMovieCommand.ExecuteReader();

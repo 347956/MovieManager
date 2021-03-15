@@ -1,4 +1,17 @@
 ﻿@{
     ViewBag.Title = "Movies";
 }
-<h2>This is the movie list page</h2>>
+<h2>This is the movie list page</h2>
+
+<div class="col">
+    @foreach (MovieModel movie in ViewBag.movies)
+    {
+        <ul class="list-inline">
+            <li class="list-inline-item">@movie.Name</li>
+            <li class="list-inline-item">@movie.Genre</li>
+            <li class="list-inline-item">@movie.GenreTWo</li>
+            <li class="list-inline-item">@movie.Date</li>
+            <li class="list-inline-item">@movie.Watched</li>
+        </ul>
+    }
+</div>
