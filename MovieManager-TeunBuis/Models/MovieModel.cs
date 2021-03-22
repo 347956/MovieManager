@@ -9,7 +9,7 @@ namespace MovieManager_TeunBuis.Models
     {
         public string Name { get;set; }
         public string Genre { get; set; }
-        public string GenreTWo { get; set; }
+        public string GenreTwo { get; set; }
         public string Date { get; set; }
         public bool Watched { get; set; }
         public int ID { get; set; }

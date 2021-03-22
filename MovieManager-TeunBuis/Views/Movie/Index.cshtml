@@ -1,17 +1,31 @@
-﻿@{
+﻿@model List<MovieModel>
+@{
     ViewBag.Title = "Movies";
 }
-<h2>This is the movie list page</h2>
+    <h2>This is the movie list page</h2>    
+    <div class="row">
+        <div class="col-3">
+            <p>Genre</p>
+            <p>Tags</p>
+            <p>Sort</p>
+            <div>
+                <a asp-action="AddMovie">Add a Movie</a>
+            </div>
+        </div>
+        <div class="col-8">
+            <table class="MovieList">
+                @foreach (MovieModel movie in Model)
+                {
+                 <tr class="MovieItem">
+                    <td>@movie.Name</td>
+                    <td>@movie.Genre</td>
+                    <td>@movie.GenreTwo</td>
+                    <td>@movie.Date</td>
+                    <td>@movie.Watched</td>
+                 </tr>
+                }
+            </table>
+        </div>
+    </div>
 
-<div class="col">
-    @foreach (MovieModel movie in ViewBag.movies)
-    {
-        <ul class="list-inline">
-            <li class="list-inline-item">@movie.Name</li>
-            <li class="list-inline-item">@movie.Genre</li>
-            <li class="list-inline-item">@movie.GenreTWo</li>
-            <li class="list-inline-item">@movie.Date</li>
-            <li class="list-inline-item">@movie.Watched</li>
-        </ul>
-    }
-</div>
+

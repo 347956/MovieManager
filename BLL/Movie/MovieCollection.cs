@@ -24,14 +24,9 @@ namespace BLL
             Movie movie = new Movie(movieCollectionDAL.GetMovie(ID));
             return movie;
         }
-        public void CreateMovie(Movie movie)
+        //DTO?
+        public void CreateMovie(MovieDTO movieDTO)
         {
-            MovieDTO movieDTO = new MovieDTO();
-            movieDTO.Name = movie.Name;
-            movieDTO.Genre = movie.Genre;
-            movieDTO.Date = movie.Date;
-            movieDTO.Watched = movie.Watched;
-            movieDTO.ID = movie.ID;
             movieCollectionDAL.CreateMovie(movieDTO);
         }
         public void DeleteMovie(int ID)
