@@ -25,14 +25,23 @@ namespace MovieManager_TeunBuis.Controllers
         {
             return View();
         }
+        public IActionResult EditMovie()
+        {
+            return View();
+        }
         [HttpPost]
         public IActionResult AddMovie(MovieModel movieModel)
         {
             movieCollectionBLL.CreateMovie(CreateDTOFromViewModel(movieModel));
             return View();
         }
-
-
+        [HttpPost]
+        public IActionResult EditMovie(MovieModel movieModel)
+        {
+            Movie movie = new Movie(CreateDTOFromViewModel(movieModel));
+            movie.UpdateMovie(CreateDTOFromViewModel(movieModel));
+            return View();
+        }
 
         //this method converts a Movie BO into a MovieModel
         private MovieModel CreateMovieModelFromMovieBO(Movie movie)

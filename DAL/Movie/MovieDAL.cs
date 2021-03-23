@@ -116,7 +116,33 @@ namespace DAL
 
         public void Update(MovieDTO movieDTO, int ID)
         {
-            throw new NotImplementedException();
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    string query = "SELECT * FROM MovieTest";
+                    query += " UPDATE MovieTest SET Name = @Name";
+                    query += " , Genre = @Genre";
+                    query += " , Genre2 = @Genre2";
+                    query += " , Date = @Date";
+                    query += " , Watched = @Watched";
+                    query += " Where Id = @Id";
+                    SqlCommand updateMovieCommand = new SqlCommand(query, conn);
+                    conn.Open();
+                    updateMovieCommand.Parameters.AddWithValue("@Name", movieDTO.Name);
+                    updateMovieCommand.Parameters.AddWithValue("@Genre", movieDTO.Genre);
+                    updateMovieCommand.Parameters.AddWithValue("@Genre2", movieDTO.GenreTwo);
+                    updateMovieCommand.Parameters.AddWithValue("@Date", movieDTO.Date);
+                    updateMovieCommand.Parameters.AddWithValue("@Watched", movieDTO.Watched);
+                    updateMovieCommand.Parameters.AddWithValue("@Id", ID);
+                    updateMovieCommand.ExecuteNonQuery();
+                }
+            }
+            catch(SqlException e)
+            {
+                Console.WriteLine(e);
+            }
+
         }
     }
 }

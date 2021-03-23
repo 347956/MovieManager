@@ -26,6 +26,10 @@ namespace BLL
             this.Watched = movieDTO.Watched;
             this.ID = movieDTO.ID;
         }
-        IMovieDAL getDAL = FactoryMovieDAL.CreateMovieDAL();
+        IMovieDAL movieDAL = FactoryMovieDAL.CreateMovieDAL();
+        public void UpdateMovie(MovieDTO movieDTO)
+        {
+            movieDAL.Update(movieDTO, movieDTO.ID);
+        }
     }
 }
