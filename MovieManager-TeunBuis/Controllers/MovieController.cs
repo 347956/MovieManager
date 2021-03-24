@@ -25,9 +25,10 @@ namespace MovieManager_TeunBuis.Controllers
         {
             return View();
         }
-        public IActionResult EditMovie()
+        public IActionResult EditMovie(int id)
         {
-            return View();
+            MovieModel movieModel = CreateMovieModelFromMovieBO(movieCollectionBLL.GetMovie(id));
+            return View(movieModel); 
         }
         [HttpPost]
         public IActionResult AddMovie(MovieModel movieModel)
@@ -64,6 +65,7 @@ namespace MovieManager_TeunBuis.Controllers
             movieDTO.GenreTwo = movieModel.GenreTwo;
             movieDTO.Date = movieModel.Date;
             movieDTO.Watched = movieModel.Watched;
+            movieDTO.ID = movieModel.ID;
             return movieDTO;
         }
     }

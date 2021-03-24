@@ -97,8 +97,10 @@ namespace DAL
                     string query = "SELECT * FROM MovieTest WHERE Id = @Id";
                     SqlCommand getMovieCommand = new SqlCommand(query, conn);
                     getMovieCommand.Parameters.AddWithValue("@Id", ID);
-                    SqlDataReader reader = getMovieCommand.ExecuteReader();
                     conn.Open();
+                    getMovieCommand.ExecuteNonQuery();
+                    SqlDataReader reader = getMovieCommand.ExecuteReader();
+                    reader.Read();
                     movieDTO.ID = reader.GetInt32(0);
                     movieDTO.Name = reader.GetString(1);
                     movieDTO.Genre = reader.GetString(2);

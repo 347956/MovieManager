@@ -23,9 +23,7 @@
                     <td>@movie.Date</td>
                     <td>@movie.Watched</td>
                     <td>
-                        <div>
-                            <a asp-action="EditMovie">Edit</a>
-                        </div>
+                       @Html.ActionLink("Edit", "EditMovie", new { id = movie.ID})
                     </td>
                  </tr>
                 }
