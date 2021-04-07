@@ -30,6 +30,11 @@ namespace MovieManager_TeunBuis.Controllers
             MovieModel movieModel = CreateMovieModelFromMovieBO(movieCollectionBLL.GetMovie(id));
             return View(movieModel); 
         }
+        public IActionResult DeleteMovie(int id)
+        {
+            MovieModel movieModel = CreateMovieModelFromMovieBO(movieCollectionBLL.GetMovie(id));
+            return View(movieModel);
+        }
         [HttpPost]
         public IActionResult AddMovie(MovieModel movieModel)
         {
@@ -41,6 +46,12 @@ namespace MovieManager_TeunBuis.Controllers
         {
             Movie movie = new Movie(CreateDTOFromViewModel(movieModel));
             movie.UpdateMovie(CreateDTOFromViewModel(movieModel));
+            return View();
+        }
+        [HttpPost]
+        public IActionResult DeleteMovie(MovieModel movieModel)
+        {
+            movieCollectionBLL.DeleteMovie(movieModel.ID);
             return View();
         }
 
