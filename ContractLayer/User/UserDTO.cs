@@ -6,10 +6,10 @@ namespace ContractLayer
 {
     public class UserDTO
     {
-        public string UName { get; private set; }
-        public string FName { get; private set; }
-        public string LName { get; private set; }
-        public bool Admin { get; private set; }
-        public int Id { get; private set; }
+        public string UName { get; set; }
+        public string FName { get;set; }
+        public string LName { get; set; }
+        public bool Admin { get; set; }
+        public int Id { get; set; }
     }
 }
