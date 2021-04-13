@@ -13,6 +13,7 @@ namespace BLL
         public string LName { get; private set; }
         public bool Admin { get; private set; }
         public int Id { get; private set; }
+        public string Password { get; private set; }
 
         public User(UserDTO userDTO)
         {
@@ -20,6 +21,7 @@ namespace BLL
             FName = userDTO.FName;
             LName = userDTO.LName;
             Admin = userDTO.Admin;
+            Password = userDTO.Password;
             Id = userDTO.Id;
         }
         IUserDAL userDAL = FactoryUserDAL.CreateUserDAL();

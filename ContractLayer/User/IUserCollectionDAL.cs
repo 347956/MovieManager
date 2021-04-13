@@ -6,9 +6,10 @@ namespace ContractLayer
 {
     public interface IUserCollectionDAL
     {
-        void CreateUser(UserDTO userDTO);
-        UserDTO GetUser(int id);
+        int CreateUser(UserDTO userDTO);
+        UserDTO GetUser(int Id);
         List<UserDTO> GetALLUser();
-        void DeleteUser(int id);
+        void DeleteUser(int Id);
+        UserDTO GetUserByUName(string UName);
     }
 }

@@ -6,12 +6,22 @@ using System.Text;
 
 namespace BLL
 {
-    class UserCollection
+    public class UserCollection
     {
         IUserCollectionDAL userCollectionDAL = FactoryUserDAL.CreateUserCollectionDAL();
-        public void CreateUser(UserDTO userDTO)
+        public bool CreateUser(UserDTO userDTO)
         {
-            userCollectionDAL.CreateUser(userDTO);
+            bool userCreated;
+            if(ValidateUser(userDTO) == true)
+            {
+                userCollectionDAL.CreateUser(userDTO);
+                userCreated = true;
+            }
+            else
+            {
+                userCreated = false;
+            }
+            return userCreated;
         }
         public User GetUser(int Id)
         {
@@ -31,6 +41,20 @@ namespace BLL
         public void DeleteUser(int Id)
         {
             userCollectionDAL.DeleteUser(Id);
+        }
+        //checks if a username is already present in the database and returns a bool
+        private bool ValidateUser(UserDTO userDTO)
+        {
+            bool valid;
+            if(userCollectionDAL.GetUserByUName(userDTO.UName) == null)
+            {
+                valid = true;
+            }
+            else
+            {
+                valid = false;
+            }
+            return valid;
         }
     }
 }

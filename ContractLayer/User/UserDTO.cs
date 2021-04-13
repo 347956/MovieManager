@@ -11,5 +11,6 @@ namespace ContractLayer
         public string LName { get; set; }
         public bool Admin { get; set; }
         public int Id { get; set; }
+        public string Password { get; set; }
     }
 }
