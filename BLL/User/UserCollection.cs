@@ -12,7 +12,7 @@ namespace BLL
         public bool CreateUser(UserDTO userDTO)
         {
             bool userCreated;
-            if(ValidateUser(userDTO) == true)
+            if(userCollectionDAL.ValidateByUName(userDTO.UName) == true)
             {
                 userCollectionDAL.CreateUser(userDTO);
                 userCreated = true;
@@ -41,20 +41,6 @@ namespace BLL
         public void DeleteUser(int Id)
         {
             userCollectionDAL.DeleteUser(Id);
-        }
-        //checks if a username is already present in the database and returns a bool
-        private bool ValidateUser(UserDTO userDTO)
-        {
-            bool valid;
-            if(userCollectionDAL.GetUserByUName(userDTO.UName) == null)
-            {
-                valid = true;
-            }
-            else
-            {
-                valid = false;
-            }
-            return valid;
         }
     }
 }

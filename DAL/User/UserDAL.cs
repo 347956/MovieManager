@@ -43,7 +43,33 @@ namespace DAL
 
         public List<UserDTO> GetALLUser()
         {
-            throw new NotImplementedException();
+            List<UserDTO> userDTOs = new List<UserDTO>();
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    string query = "SELECT * FROM UserTest";
+                    SqlCommand getAllUsers = new SqlCommand(query, conn);
+                    conn.Open();
+                    var reader = getAllUsers.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        UserDTO userDTO = new UserDTO();
+                        userDTO.Id = reader.GetInt32(0);
+                        userDTO.UName = reader.GetString(1);
+                        userDTO.FName = reader.GetString(2);
+                        userDTO.LName = reader.GetString(3);
+                        userDTO.Admin = reader.GetBoolean(4);
+                        userDTO.Password = reader.GetString(5);
+                        userDTOs.Add(userDTO);
+                    }
+                }
+            }
+            catch (SqlException e)
+            {
+                Console.WriteLine(e);
+            }
+            return userDTOs;
         }
 
         public UserDTO GetUser(int Id)
@@ -74,9 +100,9 @@ namespace DAL
             }
             return userDTO;
         }
-        public UserDTO GetUserByUName(string UName)
+        public bool ValidateByUName(string UName)
         {
-            UserDTO userDTO = new UserDTO();
+            bool valid = false;
             try
             {
                 using (SqlConnection conn = new SqlConnection(connectionString))
@@ -86,21 +112,23 @@ namespace DAL
                     getUserCommand.Parameters.AddWithValue("@UName", UName);
                     conn.Open();
                     getUserCommand.ExecuteNonQuery();
-                    SqlDataReader reader = getUserCommand.ExecuteReader();
-                    reader.Read();
-                    userDTO.Id = reader.GetInt32(0);
-                    userDTO.UName = reader.GetString(1);
-                    userDTO.FName = reader.GetString(2);
-                    userDTO.LName = reader.GetString(3);
-                    userDTO.Admin = reader.GetBoolean(4);
-                    userDTO.Password = reader.GetString(5);
+                    var reader = getUserCommand.ExecuteReader();
+                    if(reader.Read())
+                    {
+                        valid = false;
+                    }
+                    else
+                    {
+                        valid = true;
+                    }
+
                 }
             }
             catch (SqlException e)
             {
                 Console.WriteLine(e);
             }
-            return userDTO;
+            return valid;
         }
 
         public UserDTO UpdateUser(UserDTO userDTO)

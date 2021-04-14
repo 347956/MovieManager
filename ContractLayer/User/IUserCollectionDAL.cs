@@ -10,6 +10,6 @@ namespace ContractLayer
         UserDTO GetUser(int Id);
         List<UserDTO> GetALLUser();
         void DeleteUser(int Id);
-        UserDTO GetUserByUName(string UName);
+        bool ValidateByUName(string UName);
     }
 }

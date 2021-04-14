@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using BLL;
 using ContractLayer;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MovieManager_TeunBuis
 {
@@ -22,6 +23,16 @@ namespace MovieManager_TeunBuis
         public IActionResult Login()
         {
             return View();
+        }
+        public IActionResult AllUsers()
+        {
+            List<UserModel> allusers = new List<UserModel>();
+            foreach(User user in userCollection.GetAllUser())
+            {
+                UserModel userModel = CreateUserModelFromUserBO(user);
+                allusers.Add(userModel);
+            }
+            return View(allusers);
         }
         [HttpPost]
         public IActionResult Register(UserModel userModel)
@@ -47,6 +58,17 @@ namespace MovieManager_TeunBuis
             userDTO.Password = userModel.Password;
             userDTO.Id = userModel.Id;
             return userDTO;
+        }
+        private UserModel CreateUserModelFromUserBO(User user)
+        {
+            UserModel userModel = new UserModel();
+            userModel.UName = userModel.UName;
+            userModel.FName = userModel.FName;
+            userModel.LName = userModel.LName;
+            userModel.Admin = userModel.Admin;
+            userModel.Password = userModel.Password;
+            userModel.Id = userModel.Id;
+            return userModel;
         }
     }
 }
