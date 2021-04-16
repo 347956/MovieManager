@@ -28,6 +28,11 @@ namespace BLL
             User user = new User(userCollectionDAL.GetUser(Id));
             return user;
         }
+        public User GetUserByUName(UserDTO userDTO)
+        {
+            User user = new User(userCollectionDAL.GetUserByUName(userDTO.UName));
+            return user;
+        }
         public List<User> GetAllUser()
         {
             List<User> users = new List<User>();

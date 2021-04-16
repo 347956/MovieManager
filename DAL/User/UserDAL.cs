@@ -135,5 +135,36 @@ namespace DAL
         {
             throw new NotImplementedException();
         }
+
+        public UserDTO GetUserByUName(string Uname)
+        {
+            UserDTO userDTO = new UserDTO();
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    string query = "SELECT * FROM UserTest WHERE UName = @UName";
+                    SqlCommand getUserCommand = new SqlCommand(query, conn);
+                    getUserCommand.Parameters.AddWithValue("@UName", Uname);
+                    conn.Open();
+                    getUserCommand.ExecuteNonQuery();
+                    SqlDataReader reader = getUserCommand.ExecuteReader();
+                    if(reader.Read())
+                    {
+                        userDTO.Id = reader.GetInt32(0);
+                        userDTO.UName = reader.GetString(1);
+                        userDTO.FName = reader.GetString(2);
+                        userDTO.LName = reader.GetString(3);
+                        userDTO.Admin = reader.GetBoolean(4);
+                        userDTO.Password = reader.GetString(5);
+                    }
+                }
+            }
+            catch (SqlException e)
+            {
+                Console.WriteLine(e);
+            }
+            return userDTO;
+        }
     }
 }

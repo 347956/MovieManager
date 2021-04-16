@@ -6,22 +6,30 @@ using System.Threading.Tasks;
 using BLL;
 using ContractLayer;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace MovieManager_TeunBuis
 {
     public class UserController : Controller
     {
         UserCollection userCollection = new UserCollection();
-        public IActionResult Index()
+        public IActionResult Index(UserModel user)
         {
-            return View();
+            if(user == null)
+            {
+                return RedirectToAction("Login", "User");
+            }
+            else
+            {
+                return View(user);
+            }
         }
         public IActionResult Register()
         {
             return View();
         }
         public IActionResult Login()
-        {
+        {            
             return View();
         }
         public IActionResult AllUsers()
@@ -47,6 +55,20 @@ namespace MovieManager_TeunBuis
                 return RedirectToAction("Index", "User");
             }
         }
+        [HttpPost]
+        public IActionResult Login(UserModel userModel)
+        {
+            UserModel user = CreateUserModelFromUserBO(userCollection.GetUserByUName(CreateUserDTOFromVModel(userModel)));
+            if(userModel.UName == user.UName && userModel.Password == user.Password)
+            {
+                return RedirectToAction("Index", "User", user);
+            }
+            else
+            {
+                ViewBag.LoginError = "Login Data is incorrect";
+                return View();
+            }        
+        }
         //Creates a UserDTO from A UserModel
         private UserDTO CreateUserDTOFromVModel(UserModel userModel)
         {
@@ -62,13 +84,26 @@ namespace MovieManager_TeunBuis
         private UserModel CreateUserModelFromUserBO(User user)
         {
             UserModel userModel = new UserModel();
-            userModel.UName = userModel.UName;
-            userModel.FName = userModel.FName;
-            userModel.LName = userModel.LName;
-            userModel.Admin = userModel.Admin;
-            userModel.Password = userModel.Password;
-            userModel.Id = userModel.Id;
+            userModel.UName = user.UName;
+            userModel.FName = user.LName;
+            userModel.Admin = user.Admin;
+            userModel.Password = user.Password;
+            userModel.Id = user.Id;
             return userModel;
+        }
+        private void Authentication(UserModel userModel)
+        {
+            var claims = new List<Claim>();
+            if(userModel.Admin == true)
+            {
+                claims.Add(new Claim(ClaimTypes.Role, "Admin"));
+                claims.Add(new Claim(ClaimTypes.Name, userModel.UName));
+            }
+            else
+            {
+                claims.Add(new Claim(ClaimTypes.Role, "User"));
+                claims.Add(new Claim(ClaimTypes.Name, userModel.UName));
+            }
         }
     }
 }

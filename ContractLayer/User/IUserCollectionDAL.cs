@@ -8,6 +8,7 @@ namespace ContractLayer
     {
         int CreateUser(UserDTO userDTO);
         UserDTO GetUser(int Id);
+        UserDTO GetUserByUName(string Uname);
         List<UserDTO> GetALLUser();
         void DeleteUser(int Id);
         bool ValidateByUName(string UName);
