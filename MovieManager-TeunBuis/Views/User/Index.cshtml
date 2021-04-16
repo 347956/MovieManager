@@ -43,6 +43,14 @@
     </dl>
 </div>
 <div>
-    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    <h5>Your Lists:</h5>
+    <table>
+        <tr>
+            <td></td>
+        </tr>
+    </table>
+</div>
+<div>
+    @Html.ActionLink("Edit", "EditUser", new { id = Model.Id }) |
     <a asp-controller="Movie" asp-action="Index">Back to the main movie List</a>
 </div>

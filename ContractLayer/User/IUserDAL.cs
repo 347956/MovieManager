@@ -6,6 +6,6 @@ namespace ContractLayer
 {
     public interface IUserDAL
     {
-        UserDTO UpdateUser(UserDTO userDTO);
+        void UpdateUser(UserDTO userDTO);
     }
 }

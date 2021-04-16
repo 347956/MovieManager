@@ -11,6 +11,7 @@
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Register">
+            <div class="text-danger">@ViewBag.ErrorMessage</div>
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="UName" class="control-label">UserName:</label>
@@ -62,3 +63,7 @@
     <a asp-action="Index">Back to List</a>
 </div>
 
+
+@section scripts{ 
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

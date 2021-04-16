@@ -131,9 +131,32 @@ namespace DAL
             return valid;
         }
 
-        public UserDTO UpdateUser(UserDTO userDTO)
+        public void UpdateUser(UserDTO userDTO)
         {
-            throw new NotImplementedException();
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    string query = "SELECT * FROM UserTest";
+                    query += " UPDATE UserTest SET FName = @FName";
+                    query += " , LName = @LName";
+                    query += " , Password = @Password";
+                    query += " , Admin = @Admin";
+                    query += " Where Id = @Id";
+                    SqlCommand updateUserCommand = new SqlCommand(query, conn);
+                    conn.Open();
+                    updateUserCommand.Parameters.AddWithValue("@FName", userDTO.FName);
+                    updateUserCommand.Parameters.AddWithValue("@LName", userDTO.LName);
+                    updateUserCommand.Parameters.AddWithValue("@Password", userDTO.Password);
+                    updateUserCommand.Parameters.AddWithValue("@Admin", userDTO.Admin);
+                    updateUserCommand.Parameters.AddWithValue("@Id", userDTO.Id);
+                    updateUserCommand.ExecuteNonQuery();
+                }
+            }
+            catch (SqlException e)
+            {
+                Console.WriteLine(e);
+            }
         }
 
         public UserDTO GetUserByUName(string Uname)

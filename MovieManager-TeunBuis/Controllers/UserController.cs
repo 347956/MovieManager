@@ -7,6 +7,8 @@ using BLL;
 using ContractLayer;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
 
 namespace MovieManager_TeunBuis
 {
@@ -31,7 +33,7 @@ namespace MovieManager_TeunBuis
         public IActionResult Login()
         {            
             return View();
-        }
+        }        
         public IActionResult AllUsers()
         {
             List<UserModel> allusers = new List<UserModel>();
@@ -41,6 +43,11 @@ namespace MovieManager_TeunBuis
                 allusers.Add(userModel);
             }
             return View(allusers);
+        }
+        public IActionResult EditUser(int Id)
+        {
+            UserModel userModel = CreateUserModelFromUserBO(userCollection.GetUser(Id));
+            return View(userModel);
         }
         [HttpPost]
         public IActionResult Register(UserModel userModel)
@@ -61,6 +68,7 @@ namespace MovieManager_TeunBuis
             UserModel user = CreateUserModelFromUserBO(userCollection.GetUserByUName(CreateUserDTOFromVModel(userModel)));
             if(userModel.UName == user.UName && userModel.Password == user.Password)
             {
+                UserAuthentication(user);
                 return RedirectToAction("Index", "User", user);
             }
             else
@@ -68,6 +76,14 @@ namespace MovieManager_TeunBuis
                 ViewBag.LoginError = "Login Data is incorrect";
                 return View();
             }        
+        }
+        [HttpPost]
+        public IActionResult EditUser(UserModel userModel)
+        {
+            User user = new User(CreateUserDTOFromVModel(userModel));
+            user.UpdateUser(CreateUserDTOFromVModel(userModel));
+            UserModel userModelEdited = CreateUserModelFromUserBO(user);
+            return View(userModelEdited);
         }
         //Creates a UserDTO from A UserModel
         private UserDTO CreateUserDTOFromVModel(UserModel userModel)
@@ -91,7 +107,7 @@ namespace MovieManager_TeunBuis
             userModel.Id = user.Id;
             return userModel;
         }
-        private void Authentication(UserModel userModel)
+        private void UserAuthentication(UserModel userModel)
         {
             var claims = new List<Claim>();
             if(userModel.Admin == true)
@@ -104,6 +120,14 @@ namespace MovieManager_TeunBuis
                 claims.Add(new Claim(ClaimTypes.Role, "User"));
                 claims.Add(new Claim(ClaimTypes.Name, userModel.UName));
             }
+            var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+            var authPorperties = new AuthenticationProperties();
+            HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), authPorperties);
+        }
+        public IActionResult Logout()
+        {
+            HttpContext.SignOutAsync();
+            return RedirectToAction("Index", "Home");
         }
     }
 }
