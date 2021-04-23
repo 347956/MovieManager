@@ -137,7 +137,28 @@ namespace DAL
 
         public void Update(MovieListDTO movieListDTO)
         {
-            throw new NotImplementedException();
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    string query = "SELECT * FROM MovieList";
+                    query += " UPDATE MovieList SET Name = @Name";
+                    query += " , MovieCount = @MovieCount";
+                    query += " , UserId = @UserId";
+                    query += " Where Id = @Id";
+                    SqlCommand updateMovieListCommand = new SqlCommand(query, conn);
+                    conn.Open();
+                    updateMovieListCommand.Parameters.AddWithValue("@Name", movieListDTO.Name);
+                    updateMovieListCommand.Parameters.AddWithValue("@MovieCount", movieListDTO.MovieCount);
+                    updateMovieListCommand.Parameters.AddWithValue("@UserId", movieListDTO.UserId);
+                    updateMovieListCommand.Parameters.AddWithValue("@Id", movieListDTO.Id);
+                    updateMovieListCommand.ExecuteNonQuery();
+                }
+            }
+            catch (SqlException e)
+            {
+                Console.WriteLine(e);
+            }
         }
     }
 }
