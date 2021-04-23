@@ -12,6 +12,7 @@ namespace MovieManager_TeunBuis.Models
         public string Name { get;set; }
         [Required]
         public string Genre { get; set; }
+        [Required]
         public string GenreTwo { get; set; }
         public string Date { get; set; }
         [Required]

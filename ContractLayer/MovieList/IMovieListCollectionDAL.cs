@@ -8,7 +8,7 @@ namespace ContractLayer
     {
         int CreateMovieList(MovieListDTO movieListDTO);
         MovieListDTO GetMovieList(int Id);
-        List<MovieListDTO> GetMovieList();
+        List<MovieListDTO> GetAllMovieLists();
         List<MovieListDTO> GetAllMovieListByUserId(int UserId);
         void DeleteMovieList(int Id);
     }
