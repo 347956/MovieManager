@@ -10,6 +10,7 @@ namespace ContractLayer
         MovieListDTO GetMovieList(int Id);
         List<MovieListDTO> GetAllMovieLists();
         List<MovieListDTO> GetAllMovieListByUserId(int UserId);
+        List<int> GetAllMovieListMoviesIDs(int movieListId);
         void DeleteMovieList(int Id);
     }
 }

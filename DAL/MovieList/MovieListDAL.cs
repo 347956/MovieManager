@@ -31,6 +31,7 @@ namespace DAL
             }
             return createdMovieId;
         }
+
         public void DeleteMovieList(int Id)
         {
             try
@@ -159,6 +160,33 @@ namespace DAL
             {
                 Console.WriteLine(e);
             }
+        }
+
+        public List<int> GetAllMovieListMoviesIDs(int movieListId)
+        {
+            List<int> movieIds = new List<int>();
+            try
+            {
+                using SqlConnection conn = new SqlConnection(connectionString))
+            {
+                    string query = "SELECT FROM MovieList_Movies WHERE MovieList_Id = @MovieList_Id";
+                    SqlCommand getMovieListMovies = new SqlCommand(query, conn);
+                    getMovieListMovies.Parameters.AddWithValue("@MovieList_Id", movieListId);
+                    conn.Open();
+                    var reader = getMovieListMovies.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        int movieId = reader.GetInt32(2);
+                        movieIds.Add(movieId);
+                    }
+                }
+            }
+            catch(SqlException e)
+            {
+                Console.WriteLine(e);
+            }
+
+            return movieIds;
         }
     }
 }
