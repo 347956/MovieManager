@@ -167,8 +167,8 @@ namespace DAL
             List<int> movieIds = new List<int>();
             try
             {
-                using SqlConnection conn = new SqlConnection(connectionString))
-            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
                     string query = "SELECT FROM MovieList_Movies WHERE MovieList_Id = @MovieList_Id";
                     SqlCommand getMovieListMovies = new SqlCommand(query, conn);
                     getMovieListMovies.Parameters.AddWithValue("@MovieList_Id", movieListId);
@@ -179,7 +179,7 @@ namespace DAL
                         int movieId = reader.GetInt32(2);
                         movieIds.Add(movieId);
                     }
-                }
+                }                          
             }
             catch(SqlException e)
             {
