@@ -12,7 +12,7 @@ namespace BLL
         public int MovieCount { get; set; }
         public int Id { get; set; }
         public int UserId { get; set; }
-        public List<Movie> moviesInList = new List<Movie>();
+        public List<int> moviesIds = new List<int>();
 
         public MovieList(MovieListDTO movieListDTO)
         {

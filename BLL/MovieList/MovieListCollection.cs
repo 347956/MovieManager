@@ -16,7 +16,7 @@ namespace BLL
         public MovieList GetMovieList(int id)
         {
             MovieList movieList = new MovieList(movieListCollDall.GetMovieList(id));
-            movieList.moviesInList = GetMoviesFromMovieBLL(movieListCollDall.GetAllMovieListMoviesIDs(movieList.Id));
+            movieList.moviesIds = movieListCollDall.GetAllMovieListMoviesIDs(movieList.Id);
             return movieList;
         }
         public List<MovieList> GetAllMovieLists()
@@ -25,7 +25,7 @@ namespace BLL
             foreach (MovieListDTO movieListDTO in movieListCollDall.GetAllMovieLists())
             {
                 MovieList movieList = new MovieList(movieListDTO);
-                movieList.moviesInList = GetMoviesFromMovieBLL(movieListCollDall.GetAllMovieListMoviesIDs(movieList.Id));
+                movieList.moviesIds = movieListCollDall.GetAllMovieListMoviesIDs(movieList.Id);
                 movieLists.Add(movieList);
             }
             return movieLists;
@@ -36,7 +36,7 @@ namespace BLL
             foreach(MovieListDTO movieListDTO in movieListCollDall.GetAllMovieListByUserId(Id))
             {
                 MovieList movieList = new MovieList(movieListDTO);
-                movieList.moviesInList = GetMoviesFromMovieBLL(movieListCollDall.GetAllMovieListMoviesIDs(movieList.Id));
+                movieList.moviesIds = movieListCollDall.GetAllMovieListMoviesIDs(movieList.Id);
                 movieLists.Add(movieList);
             }
             return movieLists;
@@ -44,17 +44,6 @@ namespace BLL
         public void DeleteMovieList(int Id)
         {
             movieListCollDall.DeleteMovieList(Id);
-        }
-        private List<Movie> GetMoviesFromMovieBLL(List<int> movieIds)
-        {
-            MovieCollection movieCollection = new MovieCollection();
-            List<Movie> movies = new List<Movie>();
-            foreach (int id in movieIds)
-            {
-                Movie movie = movieCollection.GetMovie(id);
-                movies.Add(movie);
-            }
-            return movies;
         }
     }
 }
