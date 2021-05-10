@@ -55,6 +55,7 @@ namespace MovieManager_TeunBuis.Controllers
             movieListModel.Name = movieList.Name;
             movieListModel.MovieCount = movieList.MovieCount;
             movieListModel.movieIds = movieList.moviesIds;
+            movieListModel.UserId = movieList.UserId;
             return movieListModel;
         }
     }
