@@ -84,7 +84,7 @@ namespace DAL
                     getUserCommand.Parameters.AddWithValue("@Id", Id);
                     conn.Open();
                     getUserCommand.ExecuteNonQuery();
-                    SqlDataReader reader = getUserCommand.ExecuteReader();
+                    var reader = getUserCommand.ExecuteReader();
                     reader.Read();
                     userDTO.Id = reader.GetInt32(0);
                     userDTO.UName = reader.GetString(1);

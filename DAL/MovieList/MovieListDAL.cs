@@ -38,7 +38,7 @@ namespace DAL
             {
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {
-                    string query = "DELETE FROM MovieList WHERE Id = @Id";
+                    string query = "DELETE * FROM MovieList WHERE Id = @Id";
                     SqlCommand deleteMovieListCommand = new SqlCommand(query, conn);
                     deleteMovieListCommand.Parameters.AddWithValue("@Id", Id);
                     conn.Open();
@@ -59,9 +59,9 @@ namespace DAL
             {
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {
-                    string query = "SELECT FROM MovieList WHERE UserId = @UserId";
+                    string query = "SELECT * FROM MovieList WHERE UserId = @UserId";
                     SqlCommand getMovieListByUserId = new SqlCommand(query, conn);
-                    getMovieListByUserId.Parameters.AddWithValue("@Id", UserId);
+                    getMovieListByUserId.Parameters.AddWithValue("@UserId", UserId);
                     conn.Open();
                     var reader = getMovieListByUserId.ExecuteReader();
                     while (reader.Read())
@@ -89,7 +89,7 @@ namespace DAL
             {                
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {
-                    string query = "SELECT FROM MovieList WHERE Id = @Id";
+                    string query = "SELECT * FROM MovieList WHERE Id = @Id";
                     SqlCommand getMovieList = new SqlCommand(query, conn);
                     getMovieList.Parameters.AddWithValue("@Id", Id);
                     conn.Open();
@@ -114,7 +114,7 @@ namespace DAL
             {                
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {
-                    string query = "SELECT FROM MovieList";
+                    string query = "SELECT * FROM MovieList";
                     SqlCommand getAllMovieLists = new SqlCommand(query, conn);
                     conn.Open();
                     var reader = getAllMovieLists.ExecuteReader();
@@ -167,9 +167,10 @@ namespace DAL
             List<int> movieIds = new List<int>();
             try
             {
+                //SELECT Id, etc, etc, etc FROM "TableName"
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {
-                    string query = "SELECT FROM MovieList_Movies WHERE MovieList_Id = @MovieList_Id";
+                    string query = "SELECT * FROM MovieList_Movies WHERE MovieList_Id = @MovieList_Id";
                     SqlCommand getMovieListMovies = new SqlCommand(query, conn);
                     getMovieListMovies.Parameters.AddWithValue("@MovieList_Id", movieListId);
                     conn.Open();
