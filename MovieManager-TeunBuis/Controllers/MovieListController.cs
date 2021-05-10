@@ -40,6 +40,11 @@ namespace MovieManager_TeunBuis.Controllers
             movie.Update(CreateMovieListDTOFromViewModel(movieListModel));
             return View();
         }
+        [HttpPost]
+        public Task MovieListDeleteMovie(int movieId)
+        {
+            return 
+        }
         private MovieListDTO CreateMovieListDTOFromViewModel(MovieListModel movieListModel)
         {
             MovieListDTO movieListDTO = new MovieListDTO();
