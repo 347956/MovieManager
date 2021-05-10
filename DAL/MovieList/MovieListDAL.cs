@@ -94,10 +94,13 @@ namespace DAL
                     getMovieList.Parameters.AddWithValue("@Id", Id);
                     conn.Open();
                     var reader = getMovieList.ExecuteReader();
-                    movieListDTO.Id = reader.GetInt32(0);
-                    movieListDTO.Name = reader.GetString(1);
-                    movieListDTO.MovieCount = reader.GetInt32(2);
-                    movieListDTO.UserId = reader.GetInt32(3);
+                    if (reader.Read())
+                    {
+                        movieListDTO.Id = reader.GetInt32(0);
+                        movieListDTO.Name = reader.GetString(1);
+                        movieListDTO.MovieCount = reader.GetInt32(2);
+                        movieListDTO.UserId = reader.GetInt32(3);
+                    }
                 }
             }
             catch(SqlException e)
