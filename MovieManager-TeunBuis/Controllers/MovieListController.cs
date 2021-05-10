@@ -11,6 +11,7 @@ namespace MovieManager_TeunBuis.Controllers
     public class MovieListController : Controller
     {
         MovieListCollection movieListCollection = new MovieListCollection();
+        MovieCollection movieCollection = new MovieCollection();
         public IActionResult Index(int userId)
         {
             List<MovieListModel> movieListModels = new List<MovieListModel>();
@@ -23,7 +24,29 @@ namespace MovieManager_TeunBuis.Controllers
         public IActionResult MovieListDetails(int movieListId)
         {
             MovieListModel movieListModel = movieListModelFromBO(movieListCollection.GetMovieList(movieListId));
+            movieListModel.movieModels = GetMoviesForMovieList(movieListModel.movieIds);
             return View(movieListModel);
+        }
+        private List<MovieModel> GetMoviesForMovieList(List<int> movieIds)
+        {
+            List<MovieModel> movies = new List<MovieModel>();
+            foreach(int id in movieIds)
+            {
+                Movie movie = movieCollection.GetMovie(id);
+                movies.Add(CreateMovieModelFromMovieBO(movie));
+            }
+            return movies;
+        }
+        private MovieModel CreateMovieModelFromMovieBO(Movie movie)
+        {
+            MovieModel movieModel = new MovieModel();
+            movieModel.Name = movie.Name;
+            movieModel.Genre = movie.Genre;
+            movieModel.GenreTwo = movie.GenreTwo;
+            movieModel.Date = movie.Date;
+            movieModel.Watched = movie.Watched;
+            movieModel.ID = movie.ID;
+            return movieModel;
         }
         private MovieListModel movieListModelFromBO(MovieList movieList)
         {

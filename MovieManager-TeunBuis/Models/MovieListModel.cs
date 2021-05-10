@@ -14,5 +14,6 @@ namespace MovieManager_TeunBuis.Models
         public int Id { get; set; }
         public int UserId { get; set; }
         public List<int> movieIds = new List<int>();
+        public List<MovieModel> movieModels = new List<MovieModel>();
     }
 }
