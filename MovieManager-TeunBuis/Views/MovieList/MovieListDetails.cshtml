@@ -40,16 +40,19 @@
 <table class="MovieList">
     @foreach (MovieModel movie in Model.movieModels)
     {
-        <tr class="MovieItem">
-            <td>@movie.Name</td>
-            <td>@movie.Genre</td>
-            <td>@movie.GenreTwo</td>
-            <td>@movie.Date</td>
-            <td>@movie.Watched</td>
-        </tr>
+    <tr class="MovieItem">
+        <td>@movie.Name</td>
+        <td>@movie.Genre</td>
+        <td>@movie.GenreTwo</td>
+        <td>@movie.Date</td>
+        <td>@movie.Watched</td>
+        <td>@Html.ActionLink("Delete", "MovieListDeleteMovie", new { movieId = movie.ID })</td>
+    </tr>
     }
 </table>
 <div>
-    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
-    <a asp-action="Index">Back to List</a>
+    @Html.ActionLink("Edit List", "EditMovieList", new { movieListId = Model.Id })    
+</div>
+<div>
+    @Html.ActionLink("Back To My Lists", "Index", new { userId = Model.UserId})
 </div>
