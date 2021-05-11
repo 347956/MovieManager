@@ -21,6 +21,8 @@ namespace DAL
                     query += " SELECT CAST (scope_identity() AS int)";
                     SqlCommand createMovieList = new SqlCommand(query, conn);
                     createMovieList.Parameters.AddWithValue("@Name", movieListDTO.Name);
+                    createMovieList.Parameters.AddWithValue("@MovieCount", 0);
+                    createMovieList.Parameters.AddWithValue("@UserId", movieListDTO.UserId);
                     conn.Open();
                     createdMovieId = Convert.ToInt32(createMovieList.ExecuteScalar());
                 }
@@ -219,11 +221,32 @@ namespace DAL
             {
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {
-                    string query = "DELETE * FROM MovieList_Movies WHERE MovieList_Id = @MovieList_Id";
+                    string query = "DELETE * FROM MovieList_Movies WHERE MovieList_Id = Movie_Id";
                     SqlCommand deleteMovieFromAllListCommand = new SqlCommand(query, conn);
                     deleteMovieFromAllListCommand.Parameters.AddWithValue("@Movie_Id", movieId);
                     conn.Open();
                     deleteMovieFromAllListCommand.ExecuteNonQuery();
+                }
+            }
+            catch (SqlException e)
+            {
+                Console.WriteLine(e);
+            }
+        }
+
+        public void AddMovieToList(int movieListId, int movieId)
+        {
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    string query = "INSERT INTO MovieList_Movies (MovieList_Id, Movie_Id)";
+                    query += " VALUES (@MovieList_Id, @Movie_Id)";
+                    SqlCommand AddMovieToMovieListCommand = new SqlCommand(query, conn);
+                    AddMovieToMovieListCommand.Parameters.AddWithValue("@MovieList_Id", movieListId);
+                    AddMovieToMovieListCommand.Parameters.AddWithValue("@Movie_Id", movieId);
+                    conn.Open();
+                    AddMovieToMovieListCommand.ExecuteNonQuery();
                 }
             }
             catch (SqlException e)
