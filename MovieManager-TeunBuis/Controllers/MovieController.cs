@@ -51,7 +51,9 @@ namespace MovieManager_TeunBuis.Controllers
         [HttpPost]
         public IActionResult DeleteMovie(MovieModel movieModel)
         {
+            MovieListCollection movieListColl = new MovieListCollection();
             movieCollectionBLL.DeleteMovie(movieModel.ID);
+            movieListColl.RemoveMovieFromAllLists(movieModel.ID);
             return View();
         }
 

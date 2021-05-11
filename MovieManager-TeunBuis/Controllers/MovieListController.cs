@@ -41,9 +41,9 @@ namespace MovieManager_TeunBuis.Controllers
             return View();
         }
         [HttpPost]
-        public Task MovieListDeleteMovie(int movieId)
+        public Task MovieListDeleteMovie(int movieId, int movieListID)
         {
-            return 
+            movieListCollection.
         }
         private MovieListDTO CreateMovieListDTOFromViewModel(MovieListModel movieListModel)
         {

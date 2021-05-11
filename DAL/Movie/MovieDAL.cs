@@ -43,7 +43,7 @@ namespace DAL
             {
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {
-                    string query = "DELETE FROM MovieTest WHERE Id = @Id";
+                    string query = "DELETE * FROM MovieTest WHERE Id = @Id";
                     SqlCommand deleteMovieCommand = new SqlCommand(query, conn);
                     deleteMovieCommand.Parameters.AddWithValue("@Id", ID);
                     conn.Open();

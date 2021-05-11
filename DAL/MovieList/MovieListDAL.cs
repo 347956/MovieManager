@@ -192,5 +192,44 @@ namespace DAL
 
             return movieIds;
         }
+        //deletes a movie from the movie list which it is in
+        public void RemoveMovieFromList(int movieListId, int movieId)
+        {
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    string query = "DELETE * FROM MovieList_Movies WHERE (MovieList_Id = @MovieList_Id) AND Movie_Id = @Movie_Id";
+                    SqlCommand deleteMovieFromListCommand = new SqlCommand(query, conn);
+                    deleteMovieFromListCommand.Parameters.AddWithValue("@MovieList_Id", movieListId);
+                    deleteMovieFromListCommand.Parameters.AddWithValue("@Movie_Id", movieId);
+                    conn.Open();
+                    deleteMovieFromListCommand.ExecuteNonQuery();
+                }
+            }
+            catch(SqlException e)
+            {
+                Console.WriteLine(e);
+            }
+        }
+
+        public void RemoveMovieFromAllLists(int movieId)
+        {
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    string query = "DELETE * FROM MovieList_Movies WHERE MovieList_Id = @MovieList_Id";
+                    SqlCommand deleteMovieFromAllListCommand = new SqlCommand(query, conn);
+                    deleteMovieFromAllListCommand.Parameters.AddWithValue("@Movie_Id", movieId);
+                    conn.Open();
+                    deleteMovieFromAllListCommand.ExecuteNonQuery();
+                }
+            }
+            catch (SqlException e)
+            {
+                Console.WriteLine(e);
+            }
+        }
     }
 }

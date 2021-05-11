@@ -11,6 +11,8 @@ namespace ContractLayer
         List<MovieListDTO> GetAllMovieLists();
         List<MovieListDTO> GetAllMovieListByUserId(int UserId);
         List<int> GetAllMovieListMoviesIDs(int movieListId);
+        void RemoveMovieFromList(int movieId, int movieListId);
+        void RemoveMovieFromAllLists(int movieId);
         void DeleteMovieList(int Id);
     }
 }

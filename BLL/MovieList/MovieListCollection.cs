@@ -45,5 +45,15 @@ namespace BLL
         {
             movieListCollDall.DeleteMovieList(Id);
         }
+        //removes a movie from a single list
+        public void RemoveMovieFromList(int movieListId, int movieId)
+        {
+            movieListCollDall.RemoveMovieFromList(movieListId, movieId);
+        }
+        //removes the movie from all lists(in case the movie itsels will be deleted)
+        public void RemoveMovieFromAllLists(int movieListId)
+        {
+            movieListCollDall.RemoveMovieFromAllLists(movieListId);
+        }
     }
 }
