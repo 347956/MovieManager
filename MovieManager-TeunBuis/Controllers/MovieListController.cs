@@ -33,6 +33,7 @@ namespace MovieManager_TeunBuis.Controllers
             MovieListModel movieListModel = MovieListModelFromBO(movieListCollection.GetMovieList(movieListId));
             return View(movieListModel);
         }
+
         public IActionResult AddMovieToList(int movieListId)
         {
             List<MovieModel> movieModels = new List<MovieModel>();
@@ -42,6 +43,7 @@ namespace MovieManager_TeunBuis.Controllers
             }
             return View(movieModels);
         }
+
         [HttpPost]
         public IActionResult AddMovieToList(int movieListId, int movieId)
         {
@@ -50,6 +52,7 @@ namespace MovieManager_TeunBuis.Controllers
             movie.AddMovieToList(CreateMovieListDTOFromViewModel(movieListModel));
             return View();
         }
+
         [HttpPost]
         public IActionResult EditMovieList(MovieListModel movieListModel)
         {

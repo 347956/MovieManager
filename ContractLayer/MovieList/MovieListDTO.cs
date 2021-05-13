@@ -10,5 +10,6 @@ namespace ContractLayer
         public int MovieCount { get; set; }
         public int Id { get; set; }
         public int UserId { get; set; }
+        public List<MovieDTO> Movies{get; set;}
     }
 }
