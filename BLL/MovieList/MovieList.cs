@@ -13,16 +13,24 @@ namespace BLL
         public int Id { get; set; }
         public int UserId { get; set; }
         public List<int> moviesIds = new List<int>();
+        public List<Movie> Movies { get; set; }
+        private IMovieListDAL movieListDAL {get; set;}
 
+        //constructor
         public MovieList(MovieListDTO movieListDTO)
         {
             this.Name = movieListDTO.Name;
             this.MovieCount = movieListDTO.MovieCount;
             this.Id = movieListDTO.Id;
             this.UserId = movieListDTO.UserId;
+            this.movieListDAL = FactoryMovieListDAL.CreateMovieListDAL();
+            foreach(MovieDTO movieDTO in movieListDTO.Movies)
+            {
+                Movie movie = new Movie(movieDTO);
+                Movies.Add(movie);
+            }
         }
-        IMovieListDAL movieListDAL = FactoryMovieListDAL.CreateMovieListDAL();
-
+        //methods
         public void Update(MovieListDTO movieListDTO)
         {
             movieListDAL.Update(movieListDTO);
@@ -34,7 +42,7 @@ namespace BLL
                 movieListDAL.AddMovieToList(movieListDTO.Id, movieListDTO.UserId);   
             }            
         }
-        //checks if teh movie id is not already present in the list of movie ids
+        //checks if the movie id is not already present in the list of movie ids
         private bool CheckIfMovieIsAllreadyAdded(List<int> presentMovies, int movieId)
         {
             bool isPresent = false;
