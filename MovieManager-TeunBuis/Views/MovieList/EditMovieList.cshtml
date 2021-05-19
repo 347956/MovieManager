@@ -16,18 +16,51 @@
                 <label asp-for="Name" class="control-label"></label>
                 <input asp-for="Name" class="form-control" />
                 <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MovieCount" class="control-label"></label>
+                <input asp-for="MovieCount" class="form-control" />
+                <span asp-validation-for="MovieCount" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Id" class="control-label"></label>
+                <input asp-for="Id" class="form-control" />
+                <span asp-validation-for="Id" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UserId" class="control-label"></label>
+                <input asp-for="UserId" class="form-control" />
+                <span asp-validation-for="UserId" class="text-danger"></span>
+            </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
             </div>
         </form>
     </div>
 </div>
 <div>
-    <a asp-action="AddMovieToList">Add movie</a>
+    <table class="MovieList">
+        @foreach (MovieModel movie in Model.movieModels)
+        {
+            <tr class="MovieItem">
+                <td>@movie.Name</td>
+                <td>@movie.Genre</td>
+                <td>@movie.GenreTwo</td>
+                <td>@movie.Date</td>
+                <td>@movie.Watched</td>
+                <td>
+                    @Html.ActionLink("Edit", "EditMovie", new { id = movie.ID })
+                </td>
+                <td>
+                    @Html.ActionLink("Delete", "DeleteMovie", new { id = movie.ID })
+                </td>
+            </tr>
+        }
+    </table>
 </div>
 <div>
-    @Html.ActionLink("Back to my lists", "Index", new { UserId = Model.UserId })
+    <a asp-action="AddMovieToList" asp-route-movieListId="@Model.Id"> Add Movie(s) to List</a>
+    <a asp-action="Index" asp-route-userName="@User.Identity.Name">Back to List</a>
 </div>
 
 @section Scripts {

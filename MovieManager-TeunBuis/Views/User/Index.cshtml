@@ -43,7 +43,7 @@
     </dl>
 </div>
 <div>
-    <a asp-controller="MovieList" asp-action="Index" asp-route-userId="@Model.Id"> Your Movie Lists</a>
+    <a asp-controller="MovieList" asp-action="Index" asp-route-userName="@User.Identity.Name"> Your Movie Lists</a>
 </div>
 <div>
     @Html.ActionLink("Edit", "EditUser", new { id = Model.Id }) |

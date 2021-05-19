@@ -61,19 +61,20 @@ namespace DAL
             {
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {
-                    string query = "SELECT * FROM MovieList WHERE UserId = @UserId";
+                    string query = "SELECT MovieList.Id AS MLID FROM MovieList WHERE UserId = @UserId;";
                     SqlCommand getMovieListByUserId = new SqlCommand(query, conn);
                     getMovieListByUserId.Parameters.AddWithValue("@UserId", UserId);
                     conn.Open();
                     var reader = getMovieListByUserId.ExecuteReader();
                     while (reader.Read())
                     {
-                        MovieListDTO movieListDTO = new MovieListDTO();
-                        movieListDTO.Id = reader.GetInt32(0);
-                        movieListDTO.Name = reader.GetString(1);
-                        movieListDTO.MovieCount = reader.GetInt32(2);
-                        movieListDTO.UserId = reader.GetInt32(3);
-                        movieListDTOs.Add(movieListDTO);
+                        //MovieListDTO movieListDTO = new MovieListDTO();
+                        //movieListDTO.Id = reader.GetInt32(0);
+                        //movieListDTO.Name = reader.GetString(1);
+                        //movieListDTO.MovieCount = reader.GetInt32(2);
+                        //movieListDTO.UserId = reader.GetInt32(3);
+                        //movieListDTOs.Add(movieListDTO);
+                        movieListDTOs.Add(GetMovieList(Convert.ToInt32(reader["MLID"])));
                     }
                 }
             }
