@@ -15,15 +15,16 @@ namespace MovieManager_TeunBuis
     public class UserController : Controller
     {
         UserCollection userCollection = new UserCollection();
-        public IActionResult Index(UserModel user)
+        public IActionResult Index(string userName)
         {
-            if(user == null)
+            if(userName == null)
             {
                 return RedirectToAction("Login", "User");
             }
             else
             {
-                return View(user);
+                UserModel userModel = CreateUserModelFromUserBO(userCollection.GetUserByUName(userName));
+                return View(userModel);
             }
         }
         public IActionResult Register()
@@ -65,11 +66,11 @@ namespace MovieManager_TeunBuis
         [HttpPost]
         public IActionResult Login(UserModel userModel)
         {
-            UserModel user = CreateUserModelFromUserBO(userCollection.GetUserByUName(CreateUserDTOFromVModel(userModel)));
+            UserModel user = CreateUserModelFromUserBO(userCollection.GetUserByUName(userModel.UName));
             if(userModel.UName == user.UName && userModel.Password == user.Password)
             {
                 UserAuthentication(user);
-                return RedirectToAction("Index", "User", user);
+                return RedirectToAction("Index", "User", new { userName = user.UName });
             }
             else
             {

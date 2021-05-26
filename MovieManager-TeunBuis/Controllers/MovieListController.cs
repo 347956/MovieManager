@@ -13,8 +13,10 @@ namespace MovieManager_TeunBuis.Controllers
     {
         MovieListCollection movieListCollection = new MovieListCollection();
         MovieCollection movieCollection = new MovieCollection();
-        public IActionResult Index(int userId)
+        UserCollection userCollection = new UserCollection();
+        public IActionResult Index(string userName)
         {
+            int userId = userCollection.GetUserIdByUName(userName);
             List<MovieListModel> movieListModels = new List<MovieListModel>();
             foreach(MovieList movielist in movieListCollection.GetAllMovieListsByUserId(userId))
             {
@@ -41,16 +43,16 @@ namespace MovieManager_TeunBuis.Controllers
             {
                 movieModels.Add(CreateMovieModelFromMovieBO(movie));
             }
+            TempData["movielistId"] = movieListId;
             return View(movieModels);
         }
-
         [HttpPost]
         public IActionResult AddMovieToList(int movieListId, int movieId)
         {
             MovieListModel movieListModel = MovieListModelFromBO(movieListCollection.GetMovieList(movieListId));
-            MovieList movie = new MovieList(CreateMovieListDTOFromViewModel(movieListModel));
-            movie.AddMovieToList(CreateMovieListDTOFromViewModel(movieListModel));
-            return View();
+            MovieList movieList = new MovieList(CreateMovieListDTOFromViewModel(movieListModel));
+            movieList.AddMovieToList(CreateMovieListDTOFromViewModel(movieListModel));
+            return RedirectToAction("EditMovieList", "MovieList", movieListId);
         }
 
         [HttpPost]
@@ -103,7 +105,17 @@ namespace MovieManager_TeunBuis.Controllers
             movieListModel.MovieCount = movieList.MovieCount;
             movieListModel.movieIds = movieList.moviesIds;
             movieListModel.UserId = movieList.UserId;
+            movieListModel.movieModels = GetMovieModelsListFromBO(movieList.Movies);
             return movieListModel;
+        }
+        private List<MovieModel> GetMovieModelsListFromBO(List<Movie> moviesBOList)
+        {
+            List<MovieModel> movieModels = new List<MovieModel>();
+            foreach(Movie movie in moviesBOList)
+            {
+                movieModels.Add(CreateMovieModelFromMovieBO(movie));
+            }
+            return movieModels;
         }
     }
 }

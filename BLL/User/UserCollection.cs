@@ -28,9 +28,9 @@ namespace BLL
             User user = new User(userCollectionDAL.GetUser(Id));
             return user;
         }
-        public User GetUserByUName(UserDTO userDTO)
+        public User GetUserByUName(string userName)
         {
-            User user = new User(userCollectionDAL.GetUserByUName(userDTO.UName));
+            User user = new User(userCollectionDAL.GetUserByUName(userName));
             return user;
         }
         public List<User> GetAllUser()
@@ -46,6 +46,11 @@ namespace BLL
         public void DeleteUser(int Id)
         {
             userCollectionDAL.DeleteUser(Id);
+        }
+        public int GetUserIdByUName(string Uname)
+        {
+            int userId = userCollectionDAL.GetUserIdByUName(Uname);
+            return userId;
         }
     }
 }

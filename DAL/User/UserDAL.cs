@@ -189,5 +189,31 @@ namespace DAL
             }
             return userDTO;
         }
+
+        public int GetUserIdByUName(string UName)
+        {
+            int UserId = 0;
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    string query = "SELECT UserTest.Id AS UID FROM UserTest WHERE UName = @UName";
+                    SqlCommand getUserIdCommand = new SqlCommand(query, conn);
+                    getUserIdCommand.Parameters.AddWithValue("@UName", UName);
+                    conn.Open();
+                    getUserIdCommand.ExecuteNonQuery();
+                    SqlDataReader reader = getUserIdCommand.ExecuteReader();
+                    if (reader.Read())
+                    {
+                        UserId = Convert.ToInt32(reader["UID"]);
+                    }
+                }
+            }
+            catch (SqlException e)
+            {
+                Console.WriteLine(e);
+            }
+            return UserId;
+        }
     }
 }

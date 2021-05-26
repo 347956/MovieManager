@@ -13,7 +13,7 @@ namespace BLL
         public int Id { get; set; }
         public int UserId { get; set; }
         public List<int> moviesIds = new List<int>();
-        public List<Movie> Movies { get; set; }
+        public List<Movie> Movies = new List<Movie>();
         private IMovieListDAL movieListDAL {get; set;}
 
         //constructor
