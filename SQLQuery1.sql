@@ -4,4 +4,6 @@ INNER JOIN MovieTest ON MovieList_Movies.Movie_Id= MovieTest.Id
 INNER JOIN MovieList ON MovieList_Movies.MovieList_Id = MovieList.Id
 WHERE MovieList.UserId = 1;
 
-SELECT MovieList.Id FROM MovieList WHERE UserId = 1;
+SELECT MovieList.Id AS MLID FROM MovieList WHERE UserId = 1;
+
+SELECT UserTest.Id AS UID FROM UserTest WHERE UName = 'Test';
