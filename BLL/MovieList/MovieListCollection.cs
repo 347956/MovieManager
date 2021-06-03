@@ -8,7 +8,15 @@ namespace BLL
 {
     public class MovieListCollection
     {
-        IMovieListCollectionDAL movieListCollDall = FactoryMovieListDAL.CreateMovieListCollectionDAL();
+        IMovieListCollectionDAL movieListCollDall;
+        public MovieListCollection()
+        {
+            movieListCollDall = FactoryMovieListDAL.CreateMovieListCollectionDAL();
+        }
+        public MovieListCollection(IMovieListCollectionDAL movieCollectionDAL)
+        {
+            movieListCollDall = movieCollectionDAL;
+        }
         public int CreateMovieList(MovieListDTO movieListDTO)
         {
             return movieListCollDall.CreateMovieList(movieListDTO);
