@@ -46,12 +46,13 @@ namespace MovieManager_TeunBuis.Controllers
             TempData["movielistId"] = movieListId;
             return View(movieModels);
         }
+
         [HttpPost]
-        public IActionResult AddMovieToList(int movieListId, int movieId)
+        public IActionResult AddMovieToList(int movieId, int movieListId)
         {
             MovieListModel movieListModel = MovieListModelFromBO(movieListCollection.GetMovieList(movieListId));
             MovieList movieList = new MovieList(CreateMovieListDTOFromViewModel(movieListModel));
-            movieList.AddMovieToList(CreateMovieListDTOFromViewModel(movieListModel));
+            movieList.AddMovieToList(CreateMovieListDTOFromViewModel(movieListModel), movieId);
             return RedirectToAction("EditMovieList", "MovieList", movieListId);
         }
 
@@ -74,6 +75,10 @@ namespace MovieManager_TeunBuis.Controllers
             movieListDTO.UserId = movieListModel.UserId;
             movieListDTO.MovieCount = movieListModel.MovieCount;
             movieListDTO.Name = movieListModel.Name;
+            foreach(MovieModel moviemodel in movieListModel.movieModels)
+            {
+                movieListDTO.Movies.Add(movieDTOFromMovieModel(moviemodel));
+            }
             return movieListDTO;
         }
         private List<MovieModel> GetMoviesForMovieList(List<int> movieIds)
@@ -116,6 +121,17 @@ namespace MovieManager_TeunBuis.Controllers
                 movieModels.Add(CreateMovieModelFromMovieBO(movie));
             }
             return movieModels;
+        }
+        private MovieDTO movieDTOFromMovieModel(MovieModel movieModel)
+        {
+            MovieDTO movieDTO = new MovieDTO();
+            movieDTO.Name = movieModel.Name;
+            movieDTO.Genre = movieModel.Genre;
+            movieDTO.GenreTwo = movieModel.GenreTwo;
+            movieDTO.Date = movieModel.Date;
+            movieDTO.Watched = movieModel.Watched;
+            movieDTO.ID = movieModel.ID;
+            return movieDTO;
         }
     }
 }

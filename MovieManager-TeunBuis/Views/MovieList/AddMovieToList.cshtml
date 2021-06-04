@@ -9,7 +9,7 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
-<form id="AddMovieToList" asp-controller="MovieList" asp-action="AddMovieToList" method="post" role="form">
+
     <table class="table">
         <thead>
             <tr>
@@ -37,6 +37,9 @@
         <tbody>
             @foreach (var item in Model)
             {
+                //Gives a warning, but I've tried all sorts of methods to work around it. but they all don't work or make bad coding style
+                //this seems the least bad option
+            <form id="AddMovieToList" asp-controller="MovieList" asp-action="AddMovieToList" method="post" role="form">
                 <tr>
                     <td>
                         @Html.DisplayFor(modelItem => item.Name)
@@ -66,8 +69,9 @@
                         <input type="submit" value="Add" />
                     </td>
                 </tr>
-            }
-        </tbody>
+            </form>
+                    }
+            </tbody>
     </table>
-</form>
+
 

@@ -35,20 +35,21 @@ namespace BLL
         {
             movieListDAL.Update(movieListDTO);
         }
-        public void AddMovieToList(MovieListDTO movieListDTO)
-        {
-            if(CheckIfMovieIsAllreadyAdded(moviesIds, movieListDTO.Id) == true)
+        public void AddMovieToList(MovieListDTO movieListDTO, int newMovieId)
+        {           
+            if(CheckIfMovieIsAllreadyAdded(newMovieId, Movies) == false)
             {
-                movieListDAL.AddMovieToList(movieListDTO.Id, movieListDTO.UserId);   
+                movieListDTO.MovieCount++;
+                movieListDAL.AddMovieToList(movieListDTO.Id, newMovieId);   
             }            
         }
         //checks if the movie id is not already present in the list of movie ids
-        private bool CheckIfMovieIsAllreadyAdded(List<int> presentMovies, int movieId)
+        private bool CheckIfMovieIsAllreadyAdded(int newMovieId, List<Movie> movies)
         {
             bool isPresent = false;
-            foreach(int presentMovieId in presentMovies)
+            foreach(Movie movie in movies)
             {
-                if(presentMovieId == movieId)
+                if(movie.ID == newMovieId)
                 {
                     isPresent = true;
                     break;
