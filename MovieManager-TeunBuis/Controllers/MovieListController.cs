@@ -35,6 +35,12 @@ namespace MovieManager_TeunBuis.Controllers
             MovieListModel movieListModel = MovieListModelFromBO(movieListCollection.GetMovieList(movieListId));
             return View(movieListModel);
         }
+        public IActionResult DeleteMovieFromList(int movieId, int movieListId)
+        {
+            MovieModel movieModel = CreateMovieModelFromMovieBO(movieCollection.GetMovie(movieId));
+            TempData["movieListId"] = movieListId;
+            return View(movieModel);
+        }
 
         public IActionResult AddMovieToList(int movieListId)
         {
@@ -64,9 +70,10 @@ namespace MovieManager_TeunBuis.Controllers
             return RedirectToAction("Index", "MovieList");
         }
         [HttpPost]
-        public void MovieListDeleteMovie(int movieId, int movieListID)
+        public IActionResult MovieListDeleteMovie(int movieId, int movieListID)
         {
             movieListCollection.RemoveMovieFromList(movieListID, movieId);
+            return RedirectToAction("MovieListDetails", "MovieList", movieListID);
         }
         private MovieListDTO CreateMovieListDTOFromViewModel(MovieListModel movieListModel)
         {

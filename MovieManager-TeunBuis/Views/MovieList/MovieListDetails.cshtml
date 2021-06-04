@@ -46,7 +46,7 @@
         <td>@movie.GenreTwo</td>
         <td>@movie.Date</td>
         <td>@movie.Watched</td>
-        <td>@Html.ActionLink("Delete", "MovieListDeleteMovie", new { movieId = movie.ID })</td>
+        <td>@Html.ActionLink("Delete", "DeleteMovieFromList", new { movieId = movie.ID, movielistId = Model.Id })</td>
     </tr>
     }
 </table>
@@ -54,5 +54,5 @@
     @Html.ActionLink("Edit List", "EditMovieList", new { movieListId = Model.Id })    
 </div>
 <div>
-    <a asp-action="Index" asp-route-userName="@User.Identity.Name">Back to list</a>
+    <a asp-action="Index" asp-route-userName="@User.Identity.Name">Back to List</a>
 </div>

@@ -229,7 +229,7 @@ namespace DAL
             {
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {
-                    string query = "DELETE * FROM MovieList_Movies WHERE (MovieList_Id = @MovieList_Id) AND Movie_Id = @Movie_Id";
+                    string query = "DELETE FROM MovieList_Movies WHERE (MovieList_Id = @MovieList_Id) AND Movie_Id = @Movie_Id";
                     SqlCommand deleteMovieFromListCommand = new SqlCommand(query, conn);
                     deleteMovieFromListCommand.Parameters.AddWithValue("@MovieList_Id", movieListId);
                     deleteMovieFromListCommand.Parameters.AddWithValue("@Movie_Id", movieId);
@@ -249,7 +249,7 @@ namespace DAL
             {
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {
-                    string query = "DELETE * FROM MovieList_Movies WHERE MovieList_Id = Movie_Id";
+                    string query = "DELETE FROM MovieList_Movies WHERE MovieList_Id = Movie_Id";
                     SqlCommand deleteMovieFromAllListCommand = new SqlCommand(query, conn);
                     deleteMovieFromAllListCommand.Parameters.AddWithValue("@Movie_Id", movieId);
                     conn.Open();

@@ -20,7 +20,7 @@ namespace BLL
         public MovieList(MovieListDTO movieListDTO)
         {
             this.Name = movieListDTO.Name;
-            this.MovieCount = movieListDTO.MovieCount;
+            this.MovieCount = movieListDTO.Movies.Count;
             this.Id = movieListDTO.Id;
             this.UserId = movieListDTO.UserId;
             this.movieListDAL = FactoryMovieListDAL.CreateMovieListDAL();
