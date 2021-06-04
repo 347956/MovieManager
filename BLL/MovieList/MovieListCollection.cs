@@ -9,6 +9,7 @@ namespace BLL
     public class MovieListCollection
     {
         IMovieListCollectionDAL movieListCollDall;
+        //constructor
         public MovieListCollection()
         {
             movieListCollDall = FactoryMovieListDAL.CreateMovieListCollectionDAL();
@@ -17,9 +18,11 @@ namespace BLL
         {
             movieListCollDall = movieCollectionDAL;
         }
+
+        //methods
         public int CreateMovieList(MovieListDTO movieListDTO)
         {
-            return movieListCollDall.CreateMovieList(movieListDTO);
+            return movieListCollDall.CreateMovieList(movieListDTO);  
         }
         public MovieList GetMovieList(int id)
         {

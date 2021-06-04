@@ -8,7 +8,18 @@ namespace BLL
 {
     public class MovieCollection
     {
-        IMovieCollectionDAL movieCollectionDAL = FactoryMovieDAL.CreateMovieCollectionDAL();
+        IMovieCollectionDAL movieCollectionDAL;
+        //constructor
+        public MovieCollection()
+        {
+            this.movieCollectionDAL = FactoryMovieDAL.CreateMovieCollectionDAL();
+        }
+        public MovieCollection(IMovieCollectionDAL movieCollectionDAL)
+        {
+            this.movieCollectionDAL = movieCollectionDAL;
+        }
+
+        //methds
         public List<Movie> GetAllMovies()
         {
             List<Movie> movies = new List<Movie>();

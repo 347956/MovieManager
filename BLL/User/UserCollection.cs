@@ -8,7 +8,18 @@ namespace BLL
 {
     public class UserCollection
     {
-        IUserCollectionDAL userCollectionDAL = FactoryUserDAL.CreateUserCollectionDAL();
+        IUserCollectionDAL userCollectionDAL;
+        //constructor
+        public UserCollection()
+        {
+            this.userCollectionDAL = FactoryUserDAL.CreateUserCollectionDAL();
+        }
+        public UserCollection(IUserCollectionDAL userCollectionDAL)
+        {
+            this.userCollectionDAL = userCollectionDAL;
+        }
+
+        //methods
         public bool CreateUser(UserDTO userDTO)
         {
             bool userCreated;
