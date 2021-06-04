@@ -4,10 +4,11 @@
     ViewData["Title"] = "MovieListDetails";
 }
 
-<h1>MovieListDetails</h1>
+<h1>@Model.Name</h1>
 
 <div>
-    <h4>MovieListModel</h4>
+    <h4>This is the details page</h4>
+    <p>Here you can view some details about your movie list</p>
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
@@ -21,18 +22,6 @@
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.MovieCount)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Id)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Id)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.UserId)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.UserId)
         </dd>
     </dl>
 </div>
