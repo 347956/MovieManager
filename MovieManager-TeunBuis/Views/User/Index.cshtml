@@ -7,9 +7,10 @@
 <h1>Index</h1>
 
 <div>
-    <h4>UserModel</h4>
+    <h4>Welcome to your profile</h4>
+    <h5>@Model.UName</h5>
     <hr />
-    <dl class="row">
+    @*<dl class="row">
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.UName)
         </dt>
@@ -40,7 +41,7 @@
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Id)
         </dd>
-    </dl>
+    </dl>*@
 </div>
 <div>
     <a asp-controller="MovieList" asp-action="Index" asp-route-userName="@User.Identity.Name"> Your Movie Lists</a>

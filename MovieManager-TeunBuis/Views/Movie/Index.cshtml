@@ -8,29 +8,44 @@
             <p>Genre</p>
             <p>Tags</p>
             <p>Sort</p>
-            <div>
-                <a asp-action="AddMovie">Add a Movie</a>
-            </div>
+
         </div>
         <div class="col-8">
             <table class="MovieList">
+                <tr>
+                    <td>Name</td>
+                    <td>Genre</td>
+                    <td>Second Genre</td>
+                    <td>Date</td>
+                    <td>Watched</td>
+                </tr>
                 @foreach (MovieModel movie in Model)
                 {
-                 <tr class="MovieItem">
-                    <td>@movie.Name</td>
-                    <td>@movie.Genre</td>
-                    <td>@movie.GenreTwo</td>
-                    <td>@movie.Date</td>
-                    <td>@movie.Watched</td>
-                    <td>
-                       @Html.ActionLink("Edit", "EditMovie", new { id = movie.ID})
-                    </td>
-                    <td>
-                        @Html.ActionLink("Delete","DeleteMovie", new { id = movie.ID })
-                    </td>
-                 </tr>
+                    <tr class="MovieItem">
+                        <td>@movie.Name</td>
+                        <td>@movie.Genre</td>
+                        <td>@movie.GenreTwo</td>
+                        <td>@movie.Date</td>
+                        <td>@movie.Watched</td>
+                        @if (User.IsInRole("User") || User.IsInRole("Admin"))
+                        {
+                            <td>
+                                @Html.ActionLink("Edit", "EditMovie", new { id = movie.ID })
+                            </td>
+                            <td>
+                                @Html.ActionLink("Delete", "DeleteMovie", new { id = movie.ID })
+                            </td>
+                        }
+                    </tr>
                 }
             </table>
+            @if (User.IsInRole("User") || User.IsInRole("Admin"))
+            {
+                <div>
+
+                    <a asp-action="AddMovie">Add a Movie</a>
+                </div>
+            }
         </div>
     </div>
 

@@ -1,0 +1,17 @@
+﻿
+@{
+    ViewData["Title"] = "Woops";
+}
+
+<h1>WOOPS!</h1>
+<h1>Something went wrong :(</h1>
+
+<div>
+    <h2>Please select One of the folowing pages to return to</h2>
+    <a asp-controller="Movie" asp-action="Index">Take me back to the movie page</a>
+    @if (User.IsInRole("User") || User.IsInRole("Admin"))
+    {
+        <a asp-controller="User" asp-action="Index">Return to my Profile</a>
+    }
+</div>
+
