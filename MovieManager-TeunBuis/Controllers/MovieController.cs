@@ -27,11 +27,19 @@ namespace MovieManager_TeunBuis.Controllers
         }
         public IActionResult EditMovie(int id)
         {
+            if (id == 0)
+            {
+                return RedirectToAction("Woops", "Home");
+            }
             MovieModel movieModel = CreateMovieModelFromMovieBO(movieCollectionBLL.GetMovie(id));
-            return View(movieModel); 
+            return View(movieModel);
         }
         public IActionResult DeleteMovie(int id)
         {
+            if (id == 0)
+            {
+                return RedirectToAction("Woops", "Home");
+            }
             MovieModel movieModel = CreateMovieModelFromMovieBO(movieCollectionBLL.GetMovie(id));
             return View(movieModel);
         }

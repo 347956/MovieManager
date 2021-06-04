@@ -16,6 +16,10 @@ namespace MovieManager_TeunBuis.Controllers
         UserCollection userCollection = new UserCollection();
         public IActionResult Index(string userName)
         {
+            if (userName == null)
+            {
+                return RedirectToAction("Woops", "Home");
+            }
             int userId = userCollection.GetUserIdByUName(userName);
             List<MovieListModel> movieListModels = new List<MovieListModel>();
             foreach(MovieList movielist in movieListCollection.GetAllMovieListsByUserId(userId))
@@ -26,17 +30,29 @@ namespace MovieManager_TeunBuis.Controllers
         }
         public IActionResult MovieListDetails(int movieListId)
         {
+            if (movieListId == 0)
+            {
+                return RedirectToAction("Woops", "Home");
+            }
             MovieListModel movieListModel = MovieListModelFromBO(movieListCollection.GetMovieList(movieListId));
             movieListModel.movieModels = GetMoviesForMovieList(movieListModel.movieIds);
             return View(movieListModel);
         }
         public IActionResult EditMovieList(int movieListId)
         {
+            if (movieListId == 0)
+            {
+                return RedirectToAction("Woops", "Home");
+            }
             MovieListModel movieListModel = MovieListModelFromBO(movieListCollection.GetMovieList(movieListId));
             return View(movieListModel);
         }
         public IActionResult DeleteMovieFromList(int movieId, int movieListId)
         {
+            if (movieListId == 0 || movieId == 0)
+            {
+                return RedirectToAction("Woops", "Home");
+            }
             MovieModel movieModel = CreateMovieModelFromMovieBO(movieCollection.GetMovie(movieId));
             TempData["movieListId"] = movieListId;
             return View(movieModel);
@@ -44,6 +60,10 @@ namespace MovieManager_TeunBuis.Controllers
 
         public IActionResult AddMovieToList(int movieListId)
         {
+            if (movieListId == 0)
+            {
+                return RedirectToAction("Woops", "Home");
+            }
             List<MovieModel> movieModels = new List<MovieModel>();
             foreach (Movie movie in movieCollection.GetAllMovies())
             {
