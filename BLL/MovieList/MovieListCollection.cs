@@ -26,7 +26,8 @@ namespace BLL
         }
         public MovieList GetMovieList(int id)
         {
-            MovieList movieList = new MovieList(movieListCollDall.GetMovieList(id));
+            MovieListDTO movieListDTO = movieListCollDall.GetMovieList(id);
+            MovieList movieList = new MovieList(movieListDTO);
             movieList.moviesIds = movieListCollDall.GetAllMovieListMoviesIDs(movieList.Id);
             return movieList;
         }
@@ -55,11 +56,6 @@ namespace BLL
         public void DeleteMovieList(int Id)
         {
             movieListCollDall.DeleteMovieList(Id);
-        }
-        //removes a movie from a single list
-        public void RemoveMovieFromList(int movieListId, int movieId)
-        {
-            movieListCollDall.RemoveMovieFromList(movieListId, movieId);
         }
         //removes the movie from all lists(in case the movie itsels will be deleted)
         public void RemoveMovieFromAllLists(int movieListId)

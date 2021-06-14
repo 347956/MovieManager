@@ -20,7 +20,7 @@ namespace BLL
         public MovieList(MovieListDTO movieListDTO)
         {
             this.Name = movieListDTO.Name;
-            this.MovieCount = movieListDTO.Movies.Count;
+            this.MovieCount = movieListDTO.MovieCount;
             this.Id = movieListDTO.Id;
             this.UserId = movieListDTO.UserId;
             this.movieListDAL = FactoryMovieListDAL.CreateMovieListDAL();
@@ -37,14 +37,26 @@ namespace BLL
         }
         public void AddMovieToList(MovieListDTO movieListDTO, int newMovieId)
         {           
-            if(CheckIfMovieIsAllreadyAdded(newMovieId, Movies) == false)
+            if(CheckIfMovieIsAllreadyPresent(newMovieId, Movies) == false)
             {
-                movieListDTO.MovieCount++;
-                movieListDAL.AddMovieToList(movieListDTO.Id, newMovieId);   
-            }            
+                if(movieListDAL.AddMovieToList(movieListDTO.Id, newMovieId) == true)
+                {
+                    movieListDTO.MovieCount++;
+                    Update(movieListDTO);
+                }                
+            }
+        }  
+        //removes a movie from a single list
+        public void RemoveMovieFromList(int movieListId, int movieId, MovieListDTO movieListDTO)
+        {
+            if(movieListDAL.RemoveMovieFromList(movieListId, movieId) == true )
+            {
+                movieListDTO.MovieCount--;
+                Update(movieListDTO);
+            }
         }
         //checks if the movie id is not already present in the list of movie ids
-        private bool CheckIfMovieIsAllreadyAdded(int newMovieId, List<Movie> movies)
+        private bool CheckIfMovieIsAllreadyPresent(int newMovieId, List<Movie> movies)
         {
             bool isPresent = false;
             foreach(Movie movie in movies)

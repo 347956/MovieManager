@@ -61,20 +61,20 @@ namespace DAL
             {
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {
-                    string query = "SELECT MovieList.Id AS MLID FROM MovieList WHERE UserId = @UserId;";
+                    string query = "SELECT * FROM MovieList WHERE UserId = @UserId;";
                     SqlCommand getMovieListByUserId = new SqlCommand(query, conn);
                     getMovieListByUserId.Parameters.AddWithValue("@UserId", UserId);
                     conn.Open();
                     var reader = getMovieListByUserId.ExecuteReader();
                     while (reader.Read())
                     {
-                        //MovieListDTO movieListDTO = new MovieListDTO();
-                        //movieListDTO.Id = reader.GetInt32(0);
-                        //movieListDTO.Name = reader.GetString(1);
-                        //movieListDTO.MovieCount = reader.GetInt32(2);
-                        //movieListDTO.UserId = reader.GetInt32(3);
-                        //movieListDTOs.Add(movieListDTO);
-                        movieListDTOs.Add(GetMovieList(Convert.ToInt32(reader["MLID"])));
+                        MovieListDTO movieListDTO = new MovieListDTO();
+                        movieListDTO.Id = reader.GetInt32(0);
+                        movieListDTO.Name = reader.GetString(1);
+                        movieListDTO.MovieCount = reader.GetInt32(2);
+                        movieListDTO.UserId = reader.GetInt32(3);
+                        movieListDTOs.Add(movieListDTO);
+                        //movieListDTOs.Add(GetMovieList(Convert.ToInt32(reader["MLID"])));
                     }
                 }
             }
@@ -223,8 +223,9 @@ namespace DAL
             return movieIds;
         }
         //deletes a movie from the movie list which it is in
-        public void RemoveMovieFromList(int movieListId, int movieId)
+        public bool RemoveMovieFromList(int movieListId, int movieId)
         {
+            bool removed;
             try
             {
                 using (SqlConnection conn = new SqlConnection(connectionString))
@@ -235,12 +236,15 @@ namespace DAL
                     deleteMovieFromListCommand.Parameters.AddWithValue("@Movie_Id", movieId);
                     conn.Open();
                     deleteMovieFromListCommand.ExecuteNonQuery();
+                    removed = true;
                 }
             }
             catch(SqlException e)
             {
                 Console.WriteLine(e);
+                removed = false;
             }
+            return removed;
         }
 
         public void RemoveMovieFromAllLists(int movieId)
@@ -262,8 +266,9 @@ namespace DAL
             }
         }
 
-        public void AddMovieToList(int movieListId, int movieId)
+        public bool AddMovieToList(int movieListId, int movieId)
         {
+            bool added;
             try
             {
                 using (SqlConnection conn = new SqlConnection(connectionString))
@@ -275,12 +280,15 @@ namespace DAL
                     AddMovieToMovieListCommand.Parameters.AddWithValue("@Movie_Id", movieId);
                     conn.Open();
                     AddMovieToMovieListCommand.ExecuteNonQuery();
+                    added = true;
                 }
             }
             catch (SqlException e)
             {
                 Console.WriteLine(e);
+                added = false;
             }
+            return added;
         }
     }
 }

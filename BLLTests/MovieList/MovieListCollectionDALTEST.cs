@@ -111,12 +111,22 @@ namespace BLLTests.MovieList
             throw new NotImplementedException();
         }
 
-        public void RemoveMovieFromList(int movieId, int movieListId)
+        public bool RemoveMovieFromList(int movieId, int movieListId)
         {
             throw new NotImplementedException();
         }
 
-        public void Update(MovieListDTO movieListDTO)
+        public bool Update(MovieListDTO movieListDTO)
+        {
+            throw new NotImplementedException();
+        }
+
+        bool IMovieListDAL.AddMovieToList(int movieListId, int movieId)
+        {
+            throw new NotImplementedException();
+        }
+
+        void IMovieListDAL.Update(MovieListDTO movieListDTO)
         {
             throw new NotImplementedException();
         }

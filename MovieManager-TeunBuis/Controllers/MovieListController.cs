@@ -81,8 +81,8 @@ namespace MovieManager_TeunBuis.Controllers
         public IActionResult AddMovieToList(int movieId, int movieListId)
         {
             MovieListModel movieListModel = MovieListModelFromBO(movieListCollection.GetMovieList(movieListId));
-            MovieList movieList = new MovieList(CreateMovieListDTOFromViewModel(movieListModel));
             MovieListDTO movieListDTO = CreateMovieListDTOFromViewModel(movieListModel);
+            MovieList movieList = new MovieList(movieListDTO);           
             movieList.AddMovieToList(movieListDTO, movieId);
             return RedirectToAction("EditMovieList", new { movieListId = movieListId });
         }
@@ -97,12 +97,11 @@ namespace MovieManager_TeunBuis.Controllers
         [HttpPost]
         public IActionResult MovieListDeleteMovie(int movieId, int movieListID)
         {
-            movieListCollection.RemoveMovieFromList(movieListID, movieId);
+            MovieList movieList = movieListCollection.GetMovieList(movieListID);
+            MovieListDTO movieListDTO = movieListDTOFromMovieBO(movieList);
+            movieList.RemoveMovieFromList(movieListID, movieId, movieListDTO);
             return RedirectToAction("MovieListDetails", "MovieList", movieListID);
         }
-
-
-
 
         private bool CheckIfMovieIsAlreadyInList(Movie movie, MovieListModel movieListModel)
         {
@@ -123,7 +122,7 @@ namespace MovieManager_TeunBuis.Controllers
             MovieListDTO movieListDTO = new MovieListDTO();
             movieListDTO.Id = movieListModel.Id;
             movieListDTO.UserId = movieListModel.UserId;
-            movieListDTO.MovieCount = movieListModel.movieModels.Count;
+            movieListDTO.MovieCount = movieListModel.MovieCount;
             movieListDTO.Name = movieListModel.Name;
             foreach(MovieModel moviemodel in movieListModel.movieModels)
             {
@@ -157,7 +156,7 @@ namespace MovieManager_TeunBuis.Controllers
             MovieListModel movieListModel = new MovieListModel();
             movieListModel.Id = movieList.Id;
             movieListModel.Name = movieList.Name;
-            movieListModel.MovieCount = movieList.Movies.Count;
+            movieListModel.MovieCount = movieList.MovieCount;
             movieListModel.movieIds = movieList.moviesIds;
             movieListModel.UserId = movieList.UserId;
             movieListModel.movieModels = GetMovieModelsListFromBO(movieList.Movies);
@@ -171,6 +170,15 @@ namespace MovieManager_TeunBuis.Controllers
                 movieModels.Add(CreateMovieModelFromMovieBO(movie));
             }
             return movieModels;
+        }
+        private MovieListDTO movieListDTOFromMovieBO(MovieList movieList)
+        {
+            MovieListDTO movieListDTO = new MovieListDTO();
+            movieListDTO.Name = movieList.Name;
+            movieListDTO.Id = movieList.Id;
+            movieListDTO.UserId = movieList.UserId;
+            movieListDTO.MovieCount = movieList.MovieCount;
+            return movieListDTO;
         }
         private MovieDTO movieDTOFromMovieModel(MovieModel movieModel)
         {
