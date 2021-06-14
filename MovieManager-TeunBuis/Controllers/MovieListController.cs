@@ -64,10 +64,14 @@ namespace MovieManager_TeunBuis.Controllers
             {
                 return RedirectToAction("Woops", "Home");
             }
+            MovieListModel movieListModel = MovieListModelFromBO(movieListCollection.GetMovieList(movieListId));
             List<MovieModel> movieModels = new List<MovieModel>();
             foreach (Movie movie in movieCollection.GetAllMovies())
             {
-                movieModels.Add(CreateMovieModelFromMovieBO(movie));
+                if(CheckIfMovieIsAlreadyInList(movie, movieListModel) == false)
+                {
+                    movieModels.Add(CreateMovieModelFromMovieBO(movie));
+                }                
             }
             TempData["movielistId"] = movieListId;
             return View(movieModels);
@@ -78,8 +82,9 @@ namespace MovieManager_TeunBuis.Controllers
         {
             MovieListModel movieListModel = MovieListModelFromBO(movieListCollection.GetMovieList(movieListId));
             MovieList movieList = new MovieList(CreateMovieListDTOFromViewModel(movieListModel));
-            movieList.AddMovieToList(CreateMovieListDTOFromViewModel(movieListModel), movieId);
-            return RedirectToAction("EditMovieList", "MovieList", movieListId);
+            MovieListDTO movieListDTO = CreateMovieListDTOFromViewModel(movieListModel);
+            movieList.AddMovieToList(movieListDTO, movieId);
+            return RedirectToAction("EditMovieList", new { movieListId = movieListId });
         }
 
         [HttpPost]
@@ -95,12 +100,30 @@ namespace MovieManager_TeunBuis.Controllers
             movieListCollection.RemoveMovieFromList(movieListID, movieId);
             return RedirectToAction("MovieListDetails", "MovieList", movieListID);
         }
+
+
+
+
+        private bool CheckIfMovieIsAlreadyInList(Movie movie, MovieListModel movieListModel)
+        {
+            bool isPresent = false;
+            foreach(MovieModel movieModel in movieListModel.movieModels)
+            {
+                if(movieModel.ID == movie.ID)
+                {
+                    isPresent = true;
+                    break;
+                }
+            }
+            return isPresent;
+
+        }
         private MovieListDTO CreateMovieListDTOFromViewModel(MovieListModel movieListModel)
         {
             MovieListDTO movieListDTO = new MovieListDTO();
             movieListDTO.Id = movieListModel.Id;
             movieListDTO.UserId = movieListModel.UserId;
-            movieListDTO.MovieCount = movieListModel.MovieCount;
+            movieListDTO.MovieCount = movieListModel.movieModels.Count;
             movieListDTO.Name = movieListModel.Name;
             foreach(MovieModel moviemodel in movieListModel.movieModels)
             {
@@ -134,7 +157,7 @@ namespace MovieManager_TeunBuis.Controllers
             MovieListModel movieListModel = new MovieListModel();
             movieListModel.Id = movieList.Id;
             movieListModel.Name = movieList.Name;
-            movieListModel.MovieCount = movieList.MovieCount;
+            movieListModel.MovieCount = movieList.Movies.Count;
             movieListModel.movieIds = movieList.moviesIds;
             movieListModel.UserId = movieList.UserId;
             movieListModel.movieModels = GetMovieModelsListFromBO(movieList.Movies);
