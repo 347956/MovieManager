@@ -76,7 +76,18 @@ namespace MovieManager_TeunBuis.Controllers
             TempData["movielistId"] = movieListId;
             return View(movieModels);
         }
-
+        public IActionResult CreateMovieList()
+        {
+            return View();
+        }
+        [HttpPost]
+        public IActionResult CreateMovieList(MovieListModel movieListModel, string userName)
+        {
+            int userId = userCollection.GetUserIdByUName(userName);
+            movieListModel.UserId = userId;
+            movieListCollection.CreateMovieList(CreateMovieListDTOFromViewModel(movieListModel));
+            return RedirectToAction("Index", "MovieList");
+        }
         [HttpPost]
         public IActionResult AddMovieToList(int movieId, int movieListId)
         {
