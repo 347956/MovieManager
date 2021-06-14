@@ -47,6 +47,10 @@ namespace MovieManager_TeunBuis.Controllers
             MovieListModel movieListModel = MovieListModelFromBO(movieListCollection.GetMovieList(movieListId));
             return View(movieListModel);
         }
+        public IActionResult CreateMovieList()
+        {
+            return View();
+        }
         public IActionResult DeleteMovieFromList(int movieId, int movieListId)
         {
             if (movieListId == 0 || movieId == 0)
@@ -86,7 +90,14 @@ namespace MovieManager_TeunBuis.Controllers
             movieList.AddMovieToList(movieListDTO, movieId);
             return RedirectToAction("EditMovieList", new { movieListId = movieListId });
         }
-
+        [HttpPost]
+        public IActionResult CreateMovieList(MovieListModel movieListModel, string userName)
+        {
+            int userId = userCollection.GetUserIdByUName(userName);
+            movieListModel.UserId = userId;
+            movieListCollection.CreateMovieList(CreateMovieListDTOFromViewModel(movieListModel));
+            return RedirectToAction("Index", "MovieList");
+        }
         [HttpPost]
         public IActionResult EditMovieList(MovieListModel movieListModel)
         {
@@ -157,7 +168,7 @@ namespace MovieManager_TeunBuis.Controllers
             MovieListModel movieListModel = new MovieListModel();
             movieListModel.Id = movieList.Id;
             movieListModel.Name = movieList.Name;
-            movieListModel.MovieCount = movieList.Movies.Count;
+            movieListModel.MovieCount = movieList.MovieCount;
             movieListModel.movieIds = movieList.moviesIds;
             movieListModel.UserId = movieList.UserId;
             movieListModel.movieModels = GetMovieModelsListFromBO(movieList.Movies);

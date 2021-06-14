@@ -16,6 +16,7 @@ namespace DAL
             {
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {
+                    //to create the movielist in the movielist tabel
                     string query = "INSERT INTO MovieList (Name, MovieCount, UserId)";
                     query += " VALUES (@Name, @MovieCount, @UserId)";
                     query += " SELECT CAST (scope_identity() AS int)";
@@ -61,20 +62,20 @@ namespace DAL
             {
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {
-                    string query = "SELECT MovieList.Id AS MLID FROM MovieList WHERE UserId = @UserId;";
+                    string query = "SELECT * FROM MovieList WHERE UserId = @UserId;";
                     SqlCommand getMovieListByUserId = new SqlCommand(query, conn);
                     getMovieListByUserId.Parameters.AddWithValue("@UserId", UserId);
                     conn.Open();
                     var reader = getMovieListByUserId.ExecuteReader();
                     while (reader.Read())
                     {
-                        //MovieListDTO movieListDTO = new MovieListDTO();
-                        //movieListDTO.Id = reader.GetInt32(0);
-                        //movieListDTO.Name = reader.GetString(1);
-                        //movieListDTO.MovieCount = reader.GetInt32(2);
-                        //movieListDTO.UserId = reader.GetInt32(3);
-                        //movieListDTOs.Add(movieListDTO);
-                        movieListDTOs.Add(GetMovieList(Convert.ToInt32(reader["MLID"])));
+                        MovieListDTO movieListDTO = new MovieListDTO();
+                        movieListDTO.Id = reader.GetInt32(0);
+                        movieListDTO.Name = reader.GetString(1);
+                        movieListDTO.MovieCount = reader.GetInt32(2);
+                        movieListDTO.UserId = reader.GetInt32(3);
+                        movieListDTOs.Add(movieListDTO);
+                        //movieListDTOs.Add(GetMovieList(Convert.ToInt32(reader["MLID"])));
                     }
                 }
             }
@@ -92,7 +93,7 @@ namespace DAL
             {                
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {
-                    
+
                     //Things to select from the MovieList_Movies Connection Table:
                     string query = "SELECT MovieList_Movies.MovieList_Id";
                     //Things to select from the MovieTest Table:
@@ -102,7 +103,7 @@ namespace DAL
                     //Table To Select from:
                     query += " FROM MovieList_Movies";
                     //First Join:
-                    query += " INNER JOIN MovieTest ON MovieList_Movies.Movie_Id= MovieTest.Id";
+                    query += " INNER JOIN MovieTest ON MovieList_Movies.Movie_Id = MovieTest.Id";
                     //Second Join:
                     query += " INNER JOIN MovieList ON MovieList_Movies.MovieList_Id = MovieList.Id";
                     //Set The Id:
@@ -130,6 +131,13 @@ namespace DAL
                             movieDTO.Watched = Convert.ToBoolean(reader["Watched"]);
                             movieListDTO.Movies.Add(movieDTO);
                         }
+                        
+                    }                    
+                    //incase its a new/empty movie list and the reader skips it
+                    else
+                    {
+                        conn.Close();
+                        movieListDTO = RetrieveEmptyMovieList(Id);
                     }
                 }
             }
@@ -139,7 +147,29 @@ namespace DAL
             }
             return movieListDTO;
         }
-
+        private MovieListDTO RetrieveEmptyMovieList(int Id)
+        {
+            MovieListDTO movieListDTO = new MovieListDTO();
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    //backup string if the movielist is empty and the reader cant read
+                    string backupQuery = "SELECT MovieList.Id AS MLID, MovieList.Name AS MLN FROM MovieList WHERE MovieList.Id = @Id";
+                    SqlCommand backupCommand = new SqlCommand(backupQuery, conn);
+                    backupCommand.Parameters.AddWithValue("@Id", Id);
+                    conn.Open();
+                    var backupReader = backupCommand.ExecuteReader();
+                    movieListDTO.Id = Convert.ToInt32(backupReader["MLID"]);
+                    movieListDTO.Name = backupReader["MLN"].ToString();
+                }
+            }
+            catch(SqlException e)
+            {
+                Console.WriteLine(e);
+            }
+            return movieListDTO;
+        }
         public List<MovieListDTO> GetAllMovieLists()
         {
             List<MovieListDTO> movieListDTOs = new List<MovieListDTO>();
@@ -262,8 +292,9 @@ namespace DAL
             }
         }
 
-        public void AddMovieToList(int movieListId, int movieId)
+        public bool AddMovieToList(int movieListId, int movieId)
         {
+            bool added;
             try
             {
                 using (SqlConnection conn = new SqlConnection(connectionString))
@@ -275,12 +306,15 @@ namespace DAL
                     AddMovieToMovieListCommand.Parameters.AddWithValue("@Movie_Id", movieId);
                     conn.Open();
                     AddMovieToMovieListCommand.ExecuteNonQuery();
+                    added = true;
                 }
             }
             catch (SqlException e)
             {
                 Console.WriteLine(e);
+                added = false;
             }
+            return added;
         }
     }
 }

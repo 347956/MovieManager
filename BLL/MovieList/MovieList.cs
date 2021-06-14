@@ -20,7 +20,7 @@ namespace BLL
         public MovieList(MovieListDTO movieListDTO)
         {
             this.Name = movieListDTO.Name;
-            this.MovieCount = movieListDTO.Movies.Count;
+            this.MovieCount = movieListDTO.MovieCount;
             this.Id = movieListDTO.Id;
             this.UserId = movieListDTO.UserId;
             this.movieListDAL = FactoryMovieListDAL.CreateMovieListDAL();
@@ -39,8 +39,11 @@ namespace BLL
         {           
             if(CheckIfMovieIsAllreadyAdded(newMovieId, Movies) == false)
             {
-                movieListDTO.MovieCount++;
-                movieListDAL.AddMovieToList(movieListDTO.Id, newMovieId);   
+                if(movieListDAL.AddMovieToList(movieListDTO.Id, newMovieId) == true)
+                {
+                    movieListDTO.MovieCount++;
+                    Update(movieListDTO);
+                }                  
             }            
         }
         //checks if the movie id is not already present in the list of movie ids

@@ -7,6 +7,6 @@ namespace ContractLayer
     public interface IMovieListDAL
     {
         void Update(MovieListDTO movieListDTO);
-        void AddMovieToList(int movieListId, int movieId);
+        bool AddMovieToList(int movieListId, int movieId);
     }
 }
