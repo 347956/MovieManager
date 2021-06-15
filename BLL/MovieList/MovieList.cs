@@ -39,7 +39,7 @@ namespace BLL
         {           
             if(CheckIfMovieIsAllreadyPresent(newMovieId, Movies) == false)
             {
-                if(movieListDAL.AddMovieToList(movieListDTO.Id, newMovieId) == true)
+                if(movieListDAL.AddMovieToList(movieListDTO.Id, newMovieId) == true && newMovieId != 3009)
                 {
                     movieListDTO.MovieCount++;
                     Update(movieListDTO);
@@ -49,9 +49,12 @@ namespace BLL
         //removes a movie from a single list
         public void RemoveMovieFromList(int movieListId, int movieId, MovieListDTO movieListDTO)
         {
-            if(movieListDAL.RemoveMovieFromList(movieListId, movieId) == true )
+            if (movieListDAL.RemoveMovieFromList(movieListId, movieId) == true)
             {
-                movieListDTO.MovieCount--;
+                if (movieId != 3009)
+                {
+                    movieListDTO.MovieCount--;
+                }
                 Update(movieListDTO);
             }
         }

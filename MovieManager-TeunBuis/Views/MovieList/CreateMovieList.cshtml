@@ -18,7 +18,7 @@
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="hidden" asp-for="MovieCount" value="1" class="form-control" />
+                <input type="hidden" asp-for="MovieCount" class="form-control" />
                 <span asp-validation-for="MovieCount" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -29,6 +29,7 @@
                 <input type="hidden" asp-for="UserId" class="form-control" />
                 <span asp-validation-for="UserId" class="text-danger"></span>
             </div>
+            <input type="hidden" name="userName" value="@User.Identity.Name" />
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>

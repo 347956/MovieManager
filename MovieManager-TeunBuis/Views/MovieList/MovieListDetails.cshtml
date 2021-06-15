@@ -43,5 +43,6 @@
     @Html.ActionLink("Edit List", "EditMovieList", new { movieListId = Model.Id })    
 </div>
 <div>
-    <a asp-action="Index" asp-route-userName="@User.Identity.Name">Back to List</a>
+    <p><a asp-action="AddMovieToList" asp-route-movieListId="@Model.Id"> Add Movie(s) to List</a></p>
+    <p><a asp-action="Index" asp-route-userName="@User.Identity.Name">Back to List</a></p>   
 </div>

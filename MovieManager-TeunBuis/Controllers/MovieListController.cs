@@ -85,8 +85,12 @@ namespace MovieManager_TeunBuis.Controllers
         {
             int userId = userCollection.GetUserIdByUName(userName);
             movieListModel.UserId = userId;
-            movieListCollection.CreateMovieList(CreateMovieListDTOFromViewModel(movieListModel));
-            return RedirectToAction("Index", "MovieList");
+            MovieListDTO movieListDTO = CreateMovieListDTOFromViewModel(movieListModel);
+            MovieList movielist = new MovieList(movieListDTO);
+            int newMovieListId = movieListCollection.CreateMovieList(CreateMovieListDTOFromViewModel(movieListModel));
+            movieListDTO.Id = newMovieListId;
+            movielist.AddMovieToList(movieListDTO, 3009);
+            return RedirectToAction("Index", "MovieList", new { userName = userName });
         }
         [HttpPost]
         public IActionResult AddMovieToList(int movieId, int movieListId)
@@ -101,9 +105,10 @@ namespace MovieManager_TeunBuis.Controllers
         [HttpPost]
         public IActionResult EditMovieList(MovieListModel movieListModel)
         {
-            MovieList movie = new MovieList(CreateMovieListDTOFromViewModel(movieListModel));
-            movie.Update(CreateMovieListDTOFromViewModel(movieListModel));
-            return RedirectToAction("Index", "MovieList");
+            MovieList movieList = new MovieList(CreateMovieListDTOFromViewModel(movieListModel));
+            User user = userCollection.GetUser(movieList.UserId);
+            movieList.Update(CreateMovieListDTOFromViewModel(movieListModel));
+            return RedirectToAction("Index", "MovieList", new { userName = user.UName });
         }
         [HttpPost]
         public IActionResult MovieListDeleteMovie(int movieId, int movieListID)
@@ -111,7 +116,7 @@ namespace MovieManager_TeunBuis.Controllers
             MovieList movieList = movieListCollection.GetMovieList(movieListID);
             MovieListDTO movieListDTO = movieListDTOFromMovieBO(movieList);
             movieList.RemoveMovieFromList(movieListID, movieId, movieListDTO);
-            return RedirectToAction("MovieListDetails", "MovieList", movieListID);
+            return RedirectToAction("MovieListDetails", "MovieList", new {movieListId = movieListID });
         }
 
         private bool CheckIfMovieIsAlreadyInList(Movie movie, MovieListModel movieListModel)
