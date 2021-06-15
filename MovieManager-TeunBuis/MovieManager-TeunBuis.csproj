@@ -1,9 +1,10 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
     <LangVersion>latest</LangVersion>
     <RootNamespace>MovieManager_TeunBuis</RootNamespace>
+    <UserSecretsId>207d0424-34a2-4716-b33c-fd252d079d50</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>

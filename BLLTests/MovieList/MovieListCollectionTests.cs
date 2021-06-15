@@ -76,5 +76,29 @@ namespace BLL.Tests
             //assert
             Assert.IsTrue(movieListId == movieListDTO.Id);
         }
+
+        [TestMethod()]
+        public void GetAllMovieListsByUserIdTest_UseAUserIdToRetrieveAllRelatedMovieListsFromTheDataBase_ShouldReturnTrue()
+        {
+            //assign
+            MovieListCollection movieListCollection = new MovieListCollection();
+            List<MovieList> movieLists = new List<MovieList>();
+            //act
+            movieLists = movieListCollection.GetAllMovieListsByUserId(1);
+            //assert
+            Assert.IsTrue(movieLists.Count >= 0);
+        }
+
+        [TestMethod()]
+        public void GetAllMovieListsTest_RetrievesAllMovieListsFromTheDataBase_ShouldReturnTrue()
+        {
+            //assign
+            MovieListCollection movieListCollection = new MovieListCollection();
+            List<MovieList> movieLists = new List<MovieList>();
+            //act
+            movieLists = movieListCollection.GetAllMovieLists();
+            //assert
+            Assert.IsTrue(movieLists.Count >= 0);
+        }
     }
 }

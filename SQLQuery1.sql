@@ -13,3 +13,5 @@ FROM MovieList_Movies
 INNER JOIN MovieTest ON MovieList_Movies.Movie_Id= MovieTest.Id 
 INNER JOIN MovieList ON MovieList_Movies.MovieList_Id = MovieList.Id
 WHERE MovieList_Id = 2;
+
+Select MovieList.Name, MovieList.Id, MovieList.UserId FROM MovieList WHERE MovieList.Id = 6;
