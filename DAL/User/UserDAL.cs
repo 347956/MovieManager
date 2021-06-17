@@ -8,7 +8,7 @@ namespace DAL
 {
     public class UserDAL : IUserDAL, IUserCollectionDAL
     {
-        string connectionString = "Server=mssql.fhict.local;Database=dbi347956;User Id =dbi347956;Password=Teun1701!";
+        string connectionString = ConnStringClass.GetConnectionString();
         public int CreateUser(UserDTO userDTO)
         {
             int Id = 0;

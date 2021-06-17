@@ -8,7 +8,7 @@ namespace DAL
 {
     public class MovieDAL : IMovieDAL, IMovieCollectionDAL
     {
-        string connectionString = "Server=mssql.fhict.local;Database=dbi347956;User Id =dbi347956;Password=Teun1701!";
+        string connectionString = ConnStringClass.GetConnectionString();
         public int CreateMovie(MovieDTO movieDTO)
         {
             int id = 0;
